@@ -103,8 +103,11 @@ theme: fluid
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repository: https://github.com/sky-0914/sky-0914.github.io.git
+  branch: main
 
 auto_category:
   enable: true
   depth: 1
+
