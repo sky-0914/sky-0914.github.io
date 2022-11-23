@@ -1,0 +1,4 @@
+hexo-auto-category
+hexo-deployer-git
+hexo-abbrlink
+npm install hexo-abbrlink --save
