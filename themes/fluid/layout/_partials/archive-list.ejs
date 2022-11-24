@@ -1,5 +1,6 @@
 <div class="list-group">
   <p class="h4"><%= __(params.key + '.post_total', params.postTotal) %></p>
+    <%- partial('_widget/post-calendar') %>
   <hr>
   <% var dateCursor %>
   <% page.posts.each(function (post) { %>
