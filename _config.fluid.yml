@@ -542,7 +542,8 @@ post:
 
   # 文章在首页的默认封面图，当没有指定 index_img 时会使用该图片，若两者都为空则不显示任何图片
   # Path of the default post cover when `index_img` is not set. If both are empty, no image will be displayed
-  default_index_img: https://api.ixiaowai.cn/mcapi/mcapi.php
+#  default_index_img: https://api.ixiaowai.cn/mcapi/mcapi.php
+  default_index_img: https://api.likepoems.com/img/sina/mc
 
   # 文章标题下方的元信息
   # Meta information below title
