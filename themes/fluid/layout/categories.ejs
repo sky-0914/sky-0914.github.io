@@ -8,7 +8,7 @@ page.banner_mask_alpha = theme.category.banner_mask_alpha
 var orderBy = theme.category.order_by || 'name'
 var curCats = site.categories.find({ parent: { $exists: false } }).sort(orderBy).filter(cat => cat.length)
 %>
-
+<%- partial('_widget/category-radar') %>
 <%- partial('_partials/category-list', {
   curCats: curCats,
   params: {
