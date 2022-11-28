@@ -2,8 +2,9 @@
 title: 1-Mysql执行流程与架构
 tags:
   - Mysql
+  - 数据库
 categories:
-  - Mysql
+  - 数据库
 ---
 # Mysql执行流程与架构
 

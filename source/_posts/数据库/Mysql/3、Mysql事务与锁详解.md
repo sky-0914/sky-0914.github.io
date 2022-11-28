@@ -2,9 +2,10 @@
 title: 3-Mysql事务与锁详解
 tags:
   - Mysql
+  - 数据库
   - 锁
 categories:
-  - Mysql
+  - 数据库
 ---
 # Mysql事务与锁详解
 

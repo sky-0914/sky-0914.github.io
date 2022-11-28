@@ -2,8 +2,9 @@
 title: React基础入门教程
 tags:
   - React
+  - 前端
 categories:
-  - React
+  - 前端
 ---
 
 # React 基础入门教程

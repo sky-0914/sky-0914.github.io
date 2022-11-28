@@ -2,8 +2,9 @@
 title: 2-Mysql索引原理与使用规则
 tags:
   - Mysql
+  - 数据库
 categories:
-  - Mysql
+  - 数据库
 ---
 # Mysql索引原理与使用规则
 
