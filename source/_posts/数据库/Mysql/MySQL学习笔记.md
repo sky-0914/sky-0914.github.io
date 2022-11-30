@@ -1,5 +1,5 @@
 ---
-title: MySQL数据和索引占用空间查询
+title: MySQL 学习笔记
 tags:
   - Mysql
   - 数据库

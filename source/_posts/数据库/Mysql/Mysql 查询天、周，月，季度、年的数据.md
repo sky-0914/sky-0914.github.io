@@ -1,5 +1,5 @@
 ---
-title: Mysql5.7及以上版本 ONLY_FULL_GROUP_BY报错
+title: Mysql 查询天、周，月，季度、年的数据
 tags:
   - Mysql
   - 数据库
