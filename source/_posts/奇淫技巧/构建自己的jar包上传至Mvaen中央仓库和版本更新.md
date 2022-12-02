@@ -2,6 +2,8 @@
 title: 构建自己的jar包上传至Mvaen中央仓库和版本更新
 tags:
   - Maven
+categories:
+  - 奇淫技巧
 ---
 # 构建自己的jar包上传至Mvaen中央仓库和版本更新
 
