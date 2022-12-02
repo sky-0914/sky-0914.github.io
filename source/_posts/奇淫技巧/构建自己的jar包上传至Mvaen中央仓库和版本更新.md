@@ -2,8 +2,6 @@
 title: 构建自己的jar包上传至Mvaen中央仓库和版本更新
 tags:
   - Maven
-categories:
-  - Maven
 ---
 # 构建自己的jar包上传至Mvaen中央仓库和版本更新
 

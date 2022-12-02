@@ -3,8 +3,6 @@ title: MAC替换Homebrew源
 tags:
   - MAC
   - Homebrew
-categories:
-  - MAC
 ---
 # homebrew长时间停在Updating Homebrew 这个步骤
 

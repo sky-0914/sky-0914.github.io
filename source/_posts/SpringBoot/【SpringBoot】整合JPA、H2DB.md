@@ -1,5 +1,5 @@
 ---
-title: 【SpringBoot】JPA在控制台打印带参sql语句
+title: 【SpringBoot】整合JPA、H2DB
 tags:
   - SpringBoot
   - JPA
