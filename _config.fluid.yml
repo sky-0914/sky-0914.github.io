@@ -356,7 +356,8 @@ navbar:
       icon: 'iconfont icon-briefcase',
       submenu: [
         { key: 'mikutap', link: '/mikutap/' },
-        { key: 'wechat-format', link: '/wechat-format/' }
+        { key: 'wechat-format', link: '/wechat-format/' },
+        { key: 'jsonCrack', link: '/jsonCrack/' }
       ]
     }
 
