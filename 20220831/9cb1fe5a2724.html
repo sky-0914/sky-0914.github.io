@@ -1,0 +1,1094 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="赵小胖">
+  <meta name="keywords" content="赵小胖的小破站">
+  
+    <meta name="description" content="【SpringBoot】整合Netty实现RPC线程模型Netty高性能架构设计 简单了解React线程模型，参考文章【五分钟快速理解 Reactor 模型】 举例说明：Reactor的三种线程模型 线程模型1：传统阻塞 I&#x2F;O 服务模型 模型特点：  采用阻塞IO模式获取输入的数据 每个链接都需要独立的线程完成数据的输入，业务处理、数据返回。  问题分析：  当并发数很大，就会创建大量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【SpringBoot】整合Netty实现RPC">
+<meta property="og:url" content="https://happyloves.cn/20220831/9cb1fe5a2724.html">
+<meta property="og:site_name" content="赵小胖的小破站">
+<meta property="og:description" content="【SpringBoot】整合Netty实现RPC线程模型Netty高性能架构设计 简单了解React线程模型，参考文章【五分钟快速理解 Reactor 模型】 举例说明：Reactor的三种线程模型 线程模型1：传统阻塞 I&#x2F;O 服务模型 模型特点：  采用阻塞IO模式获取输入的数据 每个链接都需要独立的线程完成数据的输入，业务处理、数据返回。  问题分析：  当并发数很大，就会创建大量">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/04/16/CxDQeAHMsTa4cmF.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/16/wZizHDsRVaTefg2.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/16/gKbaNuUV2Gwoc4C.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/16/Lwrp6fHeCVPcnbx.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/16/RJ4TP3Zy5XhFkaB.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/10/W7AFDhwqPUBkH3a.png">
+<meta property="og:image" content="https://s2.loli.net/2022/07/10/tHMvpfXlJQF8Tsj.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/Auh4FGsWdUJgqzY.png">
+<meta property="article:published_time" content="2022-08-31T12:39:21.816Z">
+<meta property="article:modified_time" content="2022-11-30T09:12:03.666Z">
+<meta property="article:author" content="赵小胖">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="Netty">
+<meta property="article:tag" content="RPC">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/16/CxDQeAHMsTa4cmF.png">
+  
+  
+  
+  <title>【SpringBoot】整合Netty实现RPC - 赵小胖的小破站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"happyloves.cn","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"77467d426fd8e17471dc0520a8882dc9","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"w5hrdwS9CBDKyVDGP0L6J2An-gzGzoHsz","app_key":"vBrGm5dYyMgwICg2lhDV1ZW6","server_url":"https://w5hrdws9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?77467d426fd8e17471dc0520a8882dc9";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>赵小胖的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/mikutap/">
+                    
+                    mikutap
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/wechat-format/">
+                    
+                    wechat-format
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/jsonCrack/">
+                    
+                    jsonCrack
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.likepoems.com/img/pc') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【SpringBoot】整合Netty实现RPC"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-31 20:39" pubdate>
+          2022年8月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          25k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          207 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【SpringBoot】整合Netty实现RPC</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="【SpringBoot】整合Netty实现RPC"><a href="#【SpringBoot】整合Netty实现RPC" class="headerlink" title="【SpringBoot】整合Netty实现RPC"></a>【SpringBoot】整合Netty实现RPC</h1><h2 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35751014/article/details/104443715">Netty高性能架构设计</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU0MzQ5MDA0Mw==&mid=2247498294&idx=1&sn=02b4a2b660a39624c262afa2787e9199&chksm=fb0810a2cc7f99b42f79947ac9265f5cc5293c43f1c1a066a2160740b125ecf37e9cab8aa4f0&mpshare=1&scene=24&srcid=0401GgaijbBylFsB2QErhXje&sharer_sharetime=1617238455381&sharer_shareid=0a45e2c79c575c02b962eb13994476f7#rd">简单了解React线程模型，参考文章【五分钟快速理解 Reactor 模型】</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/a_bcd_123/article/details/103855769">举例说明：Reactor的三种线程模型</a></p>
+<h3 id="线程模型1：传统阻塞-I-x2F-O-服务模型"><a href="#线程模型1：传统阻塞-I-x2F-O-服务模型" class="headerlink" title="线程模型1：传统阻塞 I&#x2F;O 服务模型"></a>线程模型1：传统阻塞 I&#x2F;O 服务模型</h3><p><img src="https://i.loli.net/2021/04/16/CxDQeAHMsTa4cmF.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>模型特点：</strong></p>
+<ul>
+<li>采用阻塞<code>IO</code>模式获取输入的数据</li>
+<li>每个链接都需要独立的线程完成数据的输入，业务处理、数据返回。</li>
+</ul>
+<p><strong>问题分析：</strong></p>
+<ul>
+<li>当并发数很大，就会创建大量的线程，占用很大系统资源</li>
+<li>连接创建后，如果当前线程暂时没有数据可读，该线程会阻塞在<code>read</code>操作，造成线程资源浪费。</li>
+</ul>
+<h3 id="线程模型2：Reactor-模式"><a href="#线程模型2：Reactor-模式" class="headerlink" title="线程模型2：Reactor 模式"></a>线程模型2：Reactor 模式</h3><blockquote>
+<ol>
+<li>Reactor模式，通过一个或多个输入同时传递给服务处理器的模式（基于事件驱动）</li>
+<li>服务器端程序处理传入的多个请求，并将它们同步分派到相应的处理线程，因此Reactor模式也叫Dispatcher模式（分派模式）</li>
+<li>Reactor模式使用IO复用监听事件，收到事件后，分发给某个线程（进程），这点就是网络服务器高并发处理关键</li>
+</ol>
+</blockquote>
+<p><strong>针对传统阻塞I&#x2F;O服务模型的2个缺点，解决方案如下：</strong></p>
+<ul>
+<li>基于 <code>I/O</code> 复用模型：多个连接共用一个阻塞对象，应用程序只需要在一个阻塞对象等待，无需阻塞等待所有连接。当某个连接有新的数据可以处理时，操作系统通知应用程序，线程从阻塞状态返回，开始进行业务处理。<code>Reactor </code>对应的叫法: 1. 反应器模式 2. 分发者模式(<code>Dispatcher</code>) 3. 通知者模式(<code>notifier</code>)</li>
+<li>基于线程池复用线程资源：不必再为每个连接创建线程，将连接完成后的业务处理任务分配给线程进行处理，一个线程可以处理多个连接的业务。</li>
+</ul>
+<p><img src="https://i.loli.net/2021/04/16/wZizHDsRVaTefg2.png" srcset="/img/loading.gif" lazyload></p>
+<p>ServiceHandler（Reactor）是个阻塞对象，去监听事件；此时工作线程池(业务处理线程)是空闲状态，当某个连接发送数据后，由ServiceHandler监听到相应的事件，再通过eventDispatch(事件分发)方法分派给工作线程池挑选空闲状态的线程去处理业务，处理完该客户端连接业务后回到空闲状态再等待新的客户端连接业务。</p>
+<p><strong>核心组成</strong></p>
+<ol>
+<li>Reactor: Reactor在一个单独的线程中运行，负责监听和分发事件，分发给适当的处理程序来对IO事件做出反应。它就像公司的电话接钱员，它接听来自客户的电话并将线路转移到适当的联系人。</li>
+<li>Handlers: 处理程序执行IO事件要完成的实际事件，类似于客户想要与之交谈的公司中的实际官员。Reactor通过调度适当的处理程序来响应I&#x2F;O事件，处理程序执行非阻塞操作。</li>
+</ol>
+<h4 id="单-Reactor-单线程"><a href="#单-Reactor-单线程" class="headerlink" title="单 Reactor 单线程"></a>单 Reactor 单线程</h4><p><img src="https://i.loli.net/2021/04/16/gKbaNuUV2Gwoc4C.png" srcset="/img/loading.gif" lazyload><br><strong>方案说明：</strong></p>
+<blockquote>
+<ol>
+<li>Select是前面IO复用模型介绍的标准网络编程APl，可以实现应用程序通过一个阻塞对象监听多路连接请求</li>
+<li>Reactor对象通过Select监控客户端请求事件，收到事件后通过Dispatch进行分发</li>
+<li>如果是建立连接请求事件，则由Acceptor通过Accept处理连接请求，然后创建一个Handler对象处理连接完成后的后续业务处理</li>
+<li>如果不是建立连接事件，则Reactor会分发调用连接对应的Handler来响应</li>
+<li>Handler会完成Read→业务处理→Send的完整业务流程</li>
+</ol>
+<p>结合实例：服务器端用一个线程通过多路复用搞定所有的IO操作（包括连接，读、写 等)，编码简单，清晰明了，但是如果客户端连接数量较多，将无法支撑，前面的IO案例就属于这种模型。</p>
+</blockquote>
+<p><strong>模型分析</strong></p>
+<ul>
+<li><strong>优点：</strong> 模型简单，没有多线程、进程通信、竞争的问题，全部都在一个线程中完成</li>
+<li><strong>缺点：</strong> 性能问题，只有一个线程，无法完全发挥多核 CPU 的性能。Handler 在处理某个连接上的业务时，整个进程无法处理其他连接事件，很容易导致性能瓶颈</li>
+<li><strong>缺点：</strong> 可靠性问题，线程意外终止，或者进入死循环，会导致整个系统通信模块不可用，不能接收和处理外部消息，造成节点故障</li>
+<li><strong>使用场景：</strong> 客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li>
+</ul>
+<h4 id="单-Reactor-多线程"><a href="#单-Reactor-多线程" class="headerlink" title="单 Reactor 多线程"></a>单 Reactor 多线程</h4><p><img src="https://i.loli.net/2021/04/16/Lwrp6fHeCVPcnbx.png" srcset="/img/loading.gif" lazyload><br><strong>方案说明：</strong></p>
+<blockquote>
+<ol>
+<li>Reactor对象通过select监控客户端请求事件，收到事件后，通过dispatch进行分发 </li>
+<li>Reactor对象如果接收到建立连接事件请求，则由Acceptor(接收器)通过accept方法处理连接请求，然后创建一个Handler对象处理完成连接后的各种事件业务</li>
+<li>Reactor对象如果不是连接事件请求，则由Reactor分发调用客户端连接对应的Handler来处理，此时Handler是持有客户端连接的channel</li>
+<li>Handler只负责响应事件，不做具体的业务处理，通过read方法读取数据后，会分发给后面的worker线程池的某个线程处理业务</li>
+<li>Worker线程池会分配独立线程完成真正的业务，并将结果返回给Handler</li>
+<li>Handler收到响应后，通过send方法将结果返回给client</li>
+</ol>
+</blockquote>
+<p><strong>模型分析</strong></p>
+<ul>
+<li><strong>优点</strong>：可以充分的利用多核<code>cpu</code> 的处理能力</li>
+<li><strong>缺点</strong>：多线程数据共享和访问比较复杂， <code>reactor</code> 处理所有的事件的监听和响应请求，在单线程运行，在高并发场景容易出现性能瓶颈。</li>
+</ul>
+<h4 id="主从-Reactor-多线程"><a href="#主从-Reactor-多线程" class="headerlink" title="主从 Reactor 多线程"></a>主从 Reactor 多线程</h4><p><img src="https://i.loli.net/2021/04/16/RJ4TP3Zy5XhFkaB.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>方案说明：</strong></p>
+<blockquote>
+<ol>
+<li>Reactor主线程MainReactor对象通过select监听连接事件，收到事件后，通过Acceptor处理连接事件</li>
+<li>当Acceptor处理连接事件后，MainReactor将连接分配给SubReactor</li>
+<li>SubReactor将连接加入到连接队列进行监听，并创建handler进行各种事件处理</li>
+<li>当有新事件发生时，SubReactor就会调用对应的handler处理</li>
+<li>handler通过read读取数据，分发给后面的worker线程处理</li>
+<li>worker线程池分配独立的worker线程进行业务处理，并返回结果</li>
+<li>handler收到响应的结果后，再通过send将结果返回给client</li>
+<li>Reactor主线程可以对应多个Reactor子线程，即MainRecator可以关联多个SubReactor</li>
+</ol>
+</blockquote>
+<p><strong>模型分析</strong></p>
+<ul>
+<li><strong>优点：</strong> 父线程与子线程的数据交互简单职责明确，父线程只需要接收新连接，子线程完成后续的业务处理。</li>
+<li><strong>优点：</strong> 父线程与子线程的数据交互简单，Reactor 主线程只需要把新连接传给子线程，子线程无需返回数据</li>
+<li><strong>缺点：</strong> 编程复杂度较高</li>
+<li><strong>结合实例：</strong> 这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持</li>
+</ul>
+<h4 id="Netty模型"><a href="#Netty模型" class="headerlink" title="Netty模型"></a>Netty模型</h4><blockquote>
+<p>参考文档：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35751014/article/details/104443715">https://blog.csdn.net/qq_35751014/article/details/104443715</a></p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/07/10/W7AFDhwqPUBkH3a.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<ol>
+<li>Netty抽象出两组线程池，BossGroup专门负责接收客户端的连接，WorkerGroup专门负责网络的读写。BossGroup和WorkerGroup类型的本质都是NioEventLoopGroup类型。</li>
+<li>NioEventLoopGroup相当于一个线程管理器（类似于ExecutorServevice），它下面维护很多个NioEventLoop线程。<ol>
+<li>在初始化这两个BossGroup和WorkerGroup线程组时，默认会在每个Group中生成CPU*2个NioEventLoop线程数</li>
+<li>当n个连接来了，Group默认会按照连接请求的顺序分别将这些连接分给各个NioEventLoop去处理。</li>
+<li>同时Group还负责管理EventLoop的生命周期。</li>
+</ol>
+</li>
+<li>NioEventLoop表示一个不断循环的执行处理任务的线程<ol>
+<li>它维护了一个线程和任务队列。</li>
+<li>每个NioEventLoop都包含一个Selector，用于监听绑定在它上面的socket通讯。</li>
+<li>每个NioEventLoop相当于Selector，负责处理多个Channel上的事件</li>
+<li>每增加一个请求连接，NioEventLoopGroup就将这个请求依次分发给它下面的NioEventLoop处理。</li>
+</ol>
+</li>
+<li>每个<code>Boss NioEventLoop</code>循环执行的步骤有3步：<ol>
+<li>轮询<code>accept</code>事件</li>
+<li>处理<code>accept</code>事件，与<code>client</code>建立连接，生成<code>NioSocketChannel</code>，并将其注册到某个<code>Worker NioEventLoop</code>的<code>selector</code>上。</li>
+<li>处理任务队列到任务，即<code>runAllTasks</code></li>
+</ol>
+</li>
+<li>每个<code>Worker NioEventLoop</code>循环执行的步骤：<ol>
+<li>轮询<code>read</code>，<code>write</code>事件</li>
+<li>处理<code>I/O</code>事件，即<code>read</code>，<code>write</code>事件，在对应的<code>NioSocketChannel</code>中进行处理</li>
+<li>处理任务队列的任务，即<code>runAllTasks</code></li>
+</ol>
+</li>
+<li>每个 Worker NioEventLoop处理业务时，会使用pipeline（管道），pipeline中维护了一个ChannelHandlerContext链表，而ChannelHandlerContext则保存了Channel相关的所有上下文信息，同时关联一个ChannelHandler对象。如图所示，Channel和pipeline一一对应，ChannelHandler和ChannelHandlerContext一一对应。</li>
+</ol>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/07/10/tHMvpfXlJQF8Tsj.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<ol start="7">
+<li><code>ChannelHandler</code>是一个接口，负责处理或拦截<code>I/O</code>操作，并将其转发到<code>Pipeline</code>中的下一个处理<code>Handler</code>进行处理。</li>
+</ol>
+</blockquote>
+<pre><code class="hljs">                                                 I/O Request
+                                            via Channel or
+                                        ChannelHandlerContext
+                                                      |
+  +---------------------------------------------------+---------------+
+  |                           ChannelPipeline         |               |
+  |                                                  \|/              |
+  |    +---------------------+            +-----------+----------+    |
+  |    | Inbound Handler  N  |            | Outbound Handler  1  |    |
+  |    +----------+----------+            +-----------+----------+    |
+  |              /|\                                  |               |
+  |               |                                  \|/              |
+  |    +----------+----------+            +-----------+----------+    |
+  |    | Inbound Handler N-1 |            | Outbound Handler  2  |    |
+  |    +----------+----------+            +-----------+----------+    |
+  |              /|\                                  .               |
+  |               .                                   .               |
+  | ChannelHandlerContext.fireIN_EVT() ChannelHandlerContext.OUT_EVT()|
+  |        [ method call]                       [method call]         |
+  |               .                                   .               |
+  |               .                                  \|/              |
+  |    +----------+----------+            +-----------+----------+    |
+  |    | Inbound Handler  2  |            | Outbound Handler M-1 |    |
+  |    +----------+----------+            +-----------+----------+    |
+  |              /|\                                  |               |
+  |               |                                  \|/              |
+  |    +----------+----------+            +-----------+----------+    |
+  |    | Inbound Handler  1  |            | Outbound Handler  M  |    |
+  |    +----------+----------+            +-----------+----------+    |
+  |              /|\                                  |               |
+  +---------------+-----------------------------------+---------------+
+                  |                                  \|/
+  +---------------+-----------------------------------+---------------+
+  |               |                                   |               |
+  |       [ Socket.read() ]                    [ Socket.write() ]     |
+  |                                                                   |
+  |  Netty Internal I/O Threads (Transport Implementation)            |
+  +-------------------------------------------------------------------+
+</code></pre>
+<h2 id="先实现简单的Netty通信"><a href="#先实现简单的Netty通信" class="headerlink" title="先实现简单的Netty通信"></a>先实现简单的Netty通信</h2><h3 id="服务端示例"><a href="#服务端示例" class="headerlink" title="服务端示例"></a>服务端示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">//创建连接线程组，线程数为1。只负责处理连接请求</span><br>    <span class="hljs-type">NioEventLoopGroup</span> <span class="hljs-variable">boss</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-comment">//创建工作线程组，线程数默认为cpu核数*2。处理与客户端的业务处理</span><br>    <span class="hljs-type">NioEventLoopGroup</span> <span class="hljs-variable">worker</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br>    <span class="hljs-comment">//创建Server端的启动对象</span><br>    <span class="hljs-type">ServerBootstrap</span> <span class="hljs-variable">serverBootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerBootstrap</span>();<br>    <span class="hljs-comment">//配置线程组</span><br>    serverBootstrap.group(boss, worker)<br>        <span class="hljs-comment">//使用 NioServerSocketChannel 作为服务器的通道实现</span><br>        .channel(NioServerSocketChannel.class)<br>        <span class="hljs-comment">//给worker线程组初始化处理器</span><br>        .childHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel socketChannel)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                socketChannel.pipeline()<br>                    <span class="hljs-comment">//添加字符串的编解码器</span><br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringDecoder</span>())<br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringEncoder</span>())<br>                    <span class="hljs-comment">//添加对象的编解码器，ClassResolvers.weakCachingConcurrentResolver设置弱引用WeakReferenceMap缓存类加载器，防止内存溢出</span><br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectDecoder</span>(ClassResolvers.weakCachingConcurrentResolver(<span class="hljs-built_in">this</span>.getClass().getClassLoader())))<br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectEncoder</span>())<br>                    <span class="hljs-comment">//添加自定义的业务处理器</span><br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;Object&gt;() &#123;<br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelActive</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            log.info(<span class="hljs-string">&quot;客户端连接啦。。。客户端地址：&#123;&#125;&quot;</span>, ctx.channel().remoteAddress());<br>                        &#125;<br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead0</span><span class="hljs-params">(ChannelHandlerContext channelHandlerContext, Object o)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            log.info(<span class="hljs-string">&quot;服务端接收到的数据：&#123;&#125;&quot;</span>, o.toString());<br>                            <span class="hljs-comment">//价值1个亿的AI代码</span><br>                            <span class="hljs-type">String</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span> o.toString();<br>                            str = str.replace(<span class="hljs-string">&quot;吗&quot;</span>, <span class="hljs-string">&quot;&quot;</span>);<br>                            str = str.replace(<span class="hljs-string">&quot;？&quot;</span>, <span class="hljs-string">&quot;！&quot;</span>);<br>                            str = str.replace(<span class="hljs-string">&quot;？ &quot;</span>, <span class="hljs-string">&quot;！ &quot;</span>);<br>                            channelHandlerContext.writeAndFlush(str);<br>                        &#125;<br>                    &#125;);<br>            &#125;<br>        &#125;);<br>    <span class="hljs-comment">//启动并且监听</span><br>    <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> serverBootstrap.bind(<span class="hljs-number">8888</span>).syncUninterruptibly();<br>    <span class="hljs-comment">//监听关闭通道</span><br>    channelFuture.channel().closeFuture();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="客户端示例"><a href="#客户端示例" class="headerlink" title="客户端示例"></a>客户端示例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">//设置客户端工作线程</span><br>    <span class="hljs-type">NioEventLoopGroup</span> <span class="hljs-variable">worker</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br>    <span class="hljs-comment">//创建客户端启动对象</span><br>    <span class="hljs-type">Bootstrap</span> <span class="hljs-variable">bootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Bootstrap</span>();<br>    bootstrap.group(worker)<br>        <span class="hljs-comment">//通道连接者</span><br>        .channel(NioSocketChannel.class)<br>        <span class="hljs-comment">//给worker线程组初始化处理器</span><br>        .handler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel socketChannel)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                socketChannel.pipeline()<br>                    <span class="hljs-comment">//添加字符串的编解码器</span><br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringDecoder</span>())<br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">StringEncoder</span>())<br>                    <span class="hljs-comment">//添加对象的编解码器，ClassResolvers.weakCachingConcurrentResolver设置弱引用WeakReferenceMap缓存类加载器，防止内存溢出</span><br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectDecoder</span>(ClassResolvers.weakCachingConcurrentResolver(<span class="hljs-built_in">this</span>.getClass().getClassLoader())))<br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectEncoder</span>())<br>                    <span class="hljs-comment">//添加自定义的业务处理器</span><br>                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;Object&gt;() &#123;<br><br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelActive</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            ctx.writeAndFlush(<span class="hljs-string">&quot;哈哈哈&quot;</span>);<br>                        &#125;<br><br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead0</span><span class="hljs-params">(ChannelHandlerContext channelHandlerContext, Object o)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            log.info(<span class="hljs-string">&quot;客户端接收到的数据：&#123;&#125;&quot;</span>, o.toString());<br>                        &#125;<br>                    &#125;);<br>            &#125;<br>        &#125;);<br><br>    <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> bootstrap.connect(<span class="hljs-string">&quot;127.0.0.1&quot;</span>, <span class="hljs-number">8888</span>).syncUninterruptibly();<br>    <span class="hljs-comment">//客户端需要输入信息，创建一个扫描器</span><br>    <span class="hljs-type">Scanner</span> <span class="hljs-variable">scanner</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(System.in);<br>    <span class="hljs-keyword">while</span> (scanner.hasNextLine()) &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">msg</span> <span class="hljs-operator">=</span> scanner.nextLine();<br>        <span class="hljs-comment">//通过channel发送到服务器端</span><br>        channel.writeAndFlush(msg + <span class="hljs-string">&quot;\r\n&quot;</span>);<br>    &#125;<br>    channelFuture.channel().closeFuture();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>快启动试试看把，不过需要注意的是，得先启动服务端哦~</p>
+<h2 id="SpringBoot-Netty4实现rpc框架"><a href="#SpringBoot-Netty4实现rpc框架" class="headerlink" title="SpringBoot + Netty4实现rpc框架"></a>SpringBoot + Netty4实现rpc框架</h2><blockquote>
+<p>好了，接下来就让我们进入正题，让我们利用我们所学的知识去实现自己一个简单的rpc框架吧</p>
+</blockquote>
+<p>简单说下RPC（Remote Procedure Call）远程过程调用，简单的理解是一个节点请求另一个节点提供的服务。让两个服务之间调用就像调用本地方法一样。</p>
+<p><strong>RPC时序图：</strong></p>
+<p><img src="https://i.loli.net/2021/04/21/Auh4FGsWdUJgqzY.png" srcset="/img/loading.gif" lazyload alt="QQ截图20210421170511.png"></p>
+<p><strong>RPC流程：</strong></p>
+<blockquote>
+<ol>
+<li>【客户端】发起调用</li>
+<li>【客户端】数据编码</li>
+<li>【客户端】发送编码后的数据到服务端</li>
+<li>【服务端】接收客户端发送的数据</li>
+<li>【服务端】对数据进行解码</li>
+<li>【服务端】处理消息业务并返回结果值</li>
+<li>【服务端】对结果值编码</li>
+<li>【服务端】将编码后的结果值回传给客户端</li>
+<li>【客户端】接收结果值</li>
+<li>【客户端】解码结果值</li>
+<li>【客户端】处理返回数据业务</li>
+</ol>
+</blockquote>
+<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- SpringBoot依赖 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Spring容器上下文 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-context<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Spring配置 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.projectlombok<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>lombok<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- Netty4 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.netty<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>netty-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.1.58.Final<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 工具 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>cn.hutool<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hutool-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.5.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="编写服务端"><a href="#编写服务端" class="headerlink" title="编写服务端"></a>编写服务端</h3><p><strong>自定义消息协议：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 17:43</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@Builder</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RpcMessage</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> <span class="hljs-number">430507739718447406L</span>;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * interface接口名</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 方法名</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String methodName;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 参数类型</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Class&lt;?&gt;[] parTypes;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 参数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Object[] pars;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 结果值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Object result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>自定义Rpc注解：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/2 15:36</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(value = &#123;ElementType.TYPE, ElementType.FIELD&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> RpcServer &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>定义<code>ServerHandle</code>业务处理器：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Netty Server端Handle处理类，消息体RpcMessage</span><br><span class="hljs-comment"> * 实现ApplicationContextAware接口：该接口可以加载获取到所有的 spring bean。</span><br><span class="hljs-comment"> * 实现了这个接口的bean，当spring容器初始化的时候，会自动的将ApplicationContext注入进来</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 22:15</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@ChannelHandler</span>.Sharable<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServerHandle</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;RpcMessage&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ApplicationContextAware</span> &#123;<br>    <span class="hljs-keyword">private</span> Map&lt;String, Object&gt; serviceMap;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 在类被Spring容器加载时会自动执行setApplicationAware</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> applicationContext Spring上下文</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> BeansException 异常信息</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setApplicationContext</span><span class="hljs-params">(ApplicationContext applicationContext)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        <span class="hljs-comment">//从Spring容器中获取到所有拥有@RpcServer注解的Beans集合，Map&lt;Name（对象类型，对象全路径名）,实例对象&gt;</span><br>        Map&lt;String, Object&gt; beansWithAnnotation = applicationContext.getBeansWithAnnotation(RpcServer.class);<br>        log.info(<span class="hljs-string">&quot;被@RpcServer注解加载的Bean: &#123;&#125;&quot;</span>, beansWithAnnotation);<br>        <span class="hljs-keyword">if</span> (beansWithAnnotation.size() &gt; <span class="hljs-number">0</span>) &#123;<br>            Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;(<span class="hljs-number">16</span>);<br>            <span class="hljs-keyword">for</span> (Object o : beansWithAnnotation.values()) &#123;<br>                <span class="hljs-comment">//获取该实例对象实现的接口Class</span><br>                Class&lt;?&gt; anInterface = o.getClass().getInterfaces()[<span class="hljs-number">0</span>];<br>                <span class="hljs-comment">//获取该接口类名，作为Key，实例对象作为Value</span><br>                map.put(anInterface.getName(), o);<br>            &#125;<br>            <span class="hljs-comment">//使用变量接住map</span><br>            serviceMap = map;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelActive</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        log.info(<span class="hljs-string">&quot;客户端连接了: &#123;&#125;&quot;</span>, ctx.channel().remoteAddress());<br>        <span class="hljs-built_in">super</span>.channelActive(ctx);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exceptionCaught</span><span class="hljs-params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        log.error(<span class="hljs-string">&quot;异常信息&quot;</span>);<br>        cause.printStackTrace();<br>        <span class="hljs-built_in">super</span>.exceptionCaught(ctx, cause);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead0</span><span class="hljs-params">(ChannelHandlerContext channelHandlerContext, RpcMessage rpcMessage)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        log.info(<span class="hljs-string">&quot;客户端发送的消息：&#123;&#125;&quot;</span>, rpcMessage);<br>        <span class="hljs-comment">//从Map中获取实例对象</span><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">service</span> <span class="hljs-operator">=</span> serviceMap.get(rpcMessage.getName());<br>        <span class="hljs-comment">//获取调用方法</span><br>        <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> service.getClass().getMethod(rpcMessage.getMethodName(), rpcMessage.getParTypes());<br>        method.setAccessible(<span class="hljs-literal">true</span>);<br>        <span class="hljs-comment">//反射调用实例对象方法，获取返回值</span><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> method.invoke(service, rpcMessage.getPars());<br>        rpcMessage.setResult(JSONUtil.toJsonStr(result));<br>        log.info(<span class="hljs-string">&quot;回给客户端的消息：&#123;&#125;&quot;</span>, rpcMessage);<br>        <span class="hljs-comment">//Netty服务端将数据写会Channel并发送给客户端，同时添加一个监听器，当所有数据包发送完成后，关闭通道</span><br>        channelHandlerContext.writeAndFlush(rpcMessage).addListener(ChannelFutureListener.CLOSE);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>定义<code>NettyServer</code>端：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Netty服务端</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/2/24 13:23</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NettyServer</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * server端处理器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ServerHandle serverHandle;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 服务端通道</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Channel channel;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 构造器</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> serverHandle server处理器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">NettyServer</span><span class="hljs-params">(ServerHandle serverHandle)</span> &#123;<br>        <span class="hljs-built_in">this</span>.serverHandle = serverHandle;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 启动</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> port 启动端口</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">start</span><span class="hljs-params">(<span class="hljs-type">int</span> port)</span> &#123;<br>        <span class="hljs-type">EventLoopGroup</span> <span class="hljs-variable">boss</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-type">EventLoopGroup</span> <span class="hljs-variable">worker</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">ServerBootstrap</span> <span class="hljs-variable">serverBootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerBootstrap</span>();<br>            serverBootstrap.group(boss, worker)<br>                    .channel(NioServerSocketChannel.class)<br>                    .childHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;() &#123;<br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel socketChannel)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            socketChannel.pipeline()<br>                                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectDecoder</span>(ClassResolvers.weakCachingConcurrentResolver(<span class="hljs-built_in">this</span>.getClass().getClassLoader())))<br>                                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectEncoder</span>())<br>                                    .addLast(serverHandle);<br>                        &#125;<br>                    &#125;);<br><br>            <span class="hljs-keyword">final</span> <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> serverBootstrap.bind(port).syncUninterruptibly();<br>            log.info(<span class="hljs-string">&quot;服务端启动-端口: &#123;&#125;&quot;</span>, port);<br>            channel = channelFuture.channel();<br>            channel.closeFuture().syncUninterruptibly();<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            boss.shutdownGracefully();<br>            worker.shutdownGracefully();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 关闭当前通道</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">stop</span><span class="hljs-params">()</span> &#123;<br>        channel.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>自定义rpc配置属性类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/4 23:38</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;netty&quot;)</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NettyRpcProperties</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> serverPort;<br>&#125;`<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建Server端启动配置类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * NettyServer服务端配置类</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 18:24</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableConfigurationProperties(NettyRpcProperties.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServerBeanConfig</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> NettyRpcProperties nettyRpcProperties;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ServerBeanConfig</span><span class="hljs-params">(NettyRpcProperties nettyRpcProperties)</span> &#123;<br>        <span class="hljs-built_in">this</span>.nettyRpcProperties = nettyRpcProperties;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 配置ServerHandle</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> ServerHandle处理类</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> ServerHandle <span class="hljs-title function_">serverHandle</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerHandle</span>();<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 配置NettyServer</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> handle ServerHandle处理类</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> NettyServer</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> NettyServer <span class="hljs-title function_">nettyServer</span><span class="hljs-params">(ServerHandle handle)</span> &#123;<br>        <span class="hljs-type">NettyServer</span> <span class="hljs-variable">nettyServer</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NettyServer</span>(handle);<br><span class="hljs-comment">//        nettyServer.start(nettyRpcProperties.getServerPort());</span><br>        <span class="hljs-keyword">return</span> nettyServer;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 解决SpringBoot端口无法监听问题</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Component</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NettyServerStart</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ApplicationRunner</span> &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> NettyServer nettyServer;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> NettyRpcProperties properties;<br><br>        <span class="hljs-meta">@Autowired</span><br>        NettyServerStart(NettyServer nettyServer, NettyRpcProperties properties) &#123;<br>            <span class="hljs-built_in">this</span>.nettyServer = nettyServer;<br>            <span class="hljs-built_in">this</span>.properties = properties;<br>        &#125;<br><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">(ApplicationArguments args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>            log.info(<span class="hljs-string">&quot;===============ApplicationRunner&quot;</span>);<br>            <span class="hljs-keyword">if</span> (nettyServer != <span class="hljs-literal">null</span>) &#123;<br>                nettyServer.start(properties.getServerPort());<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>注入Spring容器</strong></p>
+<p>此时有两种方式让该配置自动注入Spring容器生效：</p>
+<ol>
+<li><p>自动注入</p>
+<blockquote>
+<p>在resource目录下创建META-INF目录，创建spring.factories文件</p>
+<p>在该文件里写上</p>
+<p><code>org.springframework.boot.autoconfigure.EnableAutoConfiguration=$&#123;包路径:xxx.xxx.xxx&#125;.$&#123;配置类：ServerBeanConfig&#125;</code></p>
+<p>配置好之后，在SpringBoot启动时会自动加载该配置类。</p>
+</blockquote>
+</li>
+<li><p>通过注解注入</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 自定义SpringBoot启动注解</span><br><span class="hljs-comment"> * 注入ServerBeanConfig配置类</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 23:48</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@ImportAutoConfiguration(&#123;ServerBeanConfig.class&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableNettyServer &#123;<br>&#125;<br></code></pre></td></tr></table></figure></blockquote>
+</li>
+</ol>
+<h3 id="编写客户端"><a href="#编写客户端" class="headerlink" title="编写客户端"></a>编写客户端</h3><hr>
+<p><strong>创建客户端处理器&#96;ClientHandle</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/2 15:19</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@ChannelHandler</span>.Sharable<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientHandle</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;RpcMessage&gt; &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 定义消息Map，将连接通道Channel作为key，消息返回值作为value</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ConcurrentMap&lt;Channel, RpcMessage&gt; rpcMessageConcurrentMap;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ClientHandle</span><span class="hljs-params">(ConcurrentMap&lt;Channel, RpcMessage&gt; rpcMessageConcurrentMap)</span> &#123;<br>        <span class="hljs-built_in">this</span>.rpcMessageConcurrentMap = rpcMessageConcurrentMap;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead0</span><span class="hljs-params">(ChannelHandlerContext channelHandlerContext, RpcMessage rpcMessage)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        log.info(<span class="hljs-string">&quot;客户端收到服务端消息：&#123;&#125;&quot;</span>, rpcMessage);<br>        rpcMessageConcurrentMap.put(channelHandlerContext.channel(), rpcMessage);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建客户端启动类<code>NettyClient</code></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 23:30</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NettyClient</span> &#123;<br><br>    <span class="hljs-keyword">private</span> Channel channel;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 存放请求编号与响应对象的映射关系</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ConcurrentMap&lt;Channel, RpcMessage&gt; rpcMessageConcurrentMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;();<br><br>    <span class="hljs-keyword">public</span> RpcMessage <span class="hljs-title function_">send</span><span class="hljs-params">(<span class="hljs-type">int</span> port, <span class="hljs-keyword">final</span> RpcMessage rpcMessage)</span> &#123;<br>        <span class="hljs-comment">//客户端需要一个事件循环组</span><br>        <span class="hljs-type">EventLoopGroup</span> <span class="hljs-variable">group</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">Bootstrap</span> <span class="hljs-variable">bootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Bootstrap</span>();<br>            bootstrap.group(group)<br>                    .channel(NioSocketChannel.class)<br>                    .handler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;() &#123;<br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel socketChannel)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            socketChannel.pipeline()<br>                                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectDecoder</span>(ClassResolvers.weakCachingConcurrentResolver(<span class="hljs-built_in">this</span>.getClass().getClassLoader())))<br>                                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectEncoder</span>())<br>                                    .addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ClientHandle</span>(rpcMessageConcurrentMap));<br>                        &#125;<br>                    &#125;);<br>            <span class="hljs-keyword">final</span> <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> bootstrap.connect(<span class="hljs-string">&quot;127.0.0.1&quot;</span>, port).syncUninterruptibly();<br>            log.info(<span class="hljs-string">&quot;连接服务端成功: &quot;</span> + channelFuture.channel().remoteAddress());<br>            channel = channelFuture.channel();<br>            channel.writeAndFlush(rpcMessage);<br>            log.info(<span class="hljs-string">&quot;发送数据成功：&#123;&#125;&quot;</span>, rpcMessage);<br>            channel.closeFuture().syncUninterruptibly();<br>            <span class="hljs-keyword">return</span> rpcMessageConcurrentMap.get(channel);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            log.error(<span class="hljs-string">&quot;client exception&quot;</span>, e);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            group.shutdownGracefully();<br>            <span class="hljs-comment">//移除请求编号和响应对象直接的映射关系</span><br>            rpcMessageConcurrentMap.remove(channel);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">stop</span><span class="hljs-params">()</span> &#123;<br>        channel.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>定义Netty客户端Bean后置处理器</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Netty客户端Bean后置处理器</span><br><span class="hljs-comment"> * 实现Spring后置处理器接口：BeanPostProcessor</span><br><span class="hljs-comment"> * 在Bean对象在实例化和依赖注入完毕后，在显示调用初始化方法的前后添加我们自己的逻辑。注意是Bean实例化完毕后及依赖注入完成后触发的</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/2 23:00</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NettyClientBeanPostProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">BeanPostProcessor</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> NettyClient nettyClient;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">NettyClientBeanPostProcessor</span><span class="hljs-params">(NettyClient nettyClient)</span> &#123;<br>        <span class="hljs-built_in">this</span>.nettyClient = nettyClient;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 实例化、依赖注入完毕，在调用显示的初始化之前完成一些定制的初始化任务</span><br><span class="hljs-comment">     * 注意：方法返回值不能为null</span><br><span class="hljs-comment">     * 如果返回null那么在后续初始化方法将报空指针异常或者通过getBean()方法获取不到Bean实例对象</span><br><span class="hljs-comment">     * 因为后置处理器从Spring IoC容器中取出bean实例对象没有再次放回IoC容器中</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, <span class="hljs-meta">@Nullable</span> String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        <span class="hljs-comment">//获取实例Class</span><br>        Class&lt;?&gt; beanClass = bean.getClass();<br>        <span class="hljs-keyword">do</span> &#123;<br>            <span class="hljs-comment">//获取该类所有字段</span><br>            Field[] fields = beanClass.getDeclaredFields();<br>            <span class="hljs-keyword">for</span> (Field field : fields) &#123;<br>                <span class="hljs-comment">//判断该字段是否拥有@RpcServer</span><br>                <span class="hljs-keyword">if</span> (field.getAnnotation(RpcServer.class) != <span class="hljs-literal">null</span>) &#123;<br>                    field.setAccessible(<span class="hljs-literal">true</span>);<br>                    <span class="hljs-keyword">try</span> &#123;<br>                        <span class="hljs-comment">//通过JDK动态代理获取该类的代理对象</span><br>                        <span class="hljs-type">Object</span> <span class="hljs-variable">o</span> <span class="hljs-operator">=</span> Proxy.newProxyInstance(field.getType().getClassLoader(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;field.getType()&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClientInvocationHandle</span>(nettyClient));<br>                        <span class="hljs-comment">//将代理类注入该字段</span><br>                        field.set(bean, o);<br>                        log.info(<span class="hljs-string">&quot;创建代理类 ===&gt;&gt;&gt; &#123;&#125;&quot;</span>, beanName);<br>                    &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException e) &#123;<br>                        log.error(e.getMessage());<br>                    &#125;<br>                &#125;<br>            &#125;<br>        &#125; <span class="hljs-keyword">while</span> ((beanClass = beanClass.getSuperclass()) != <span class="hljs-literal">null</span>);<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 实例化、依赖注入、初始化完毕时执行</span><br><span class="hljs-comment">     * 注意：方法返回值不能为null</span><br><span class="hljs-comment">     * 如果返回null那么在后续初始化方法将报空指针异常或者通过getBean()方法获取不到Bean实例对象</span><br><span class="hljs-comment">     * 因为后置处理器从Spring IoC容器中取出bean实例对象没有再次放回IoC容器中</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        <span class="hljs-comment">// 可以根据beanName不同执行不同的处理操作</span><br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * JDK动态代理处理器</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientInvocationHandle</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">InvocationHandler</span> &#123;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> NettyClient nettyClient;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-title function_">ClientInvocationHandle</span><span class="hljs-params">(NettyClient nettyClient)</span> &#123;<br>            <span class="hljs-built_in">this</span>.nettyClient = nettyClient;<br>        &#125;<br><br>        <span class="hljs-comment">/**</span><br><span class="hljs-comment">         * 代理方法调用</span><br><span class="hljs-comment">         *</span><br><span class="hljs-comment">         * <span class="hljs-doctag">@param</span> proxy  代理类</span><br><span class="hljs-comment">         * <span class="hljs-doctag">@param</span> method 方法</span><br><span class="hljs-comment">         * <span class="hljs-doctag">@param</span> args   参数</span><br><span class="hljs-comment">         * <span class="hljs-doctag">@return</span> 返回值</span><br><span class="hljs-comment">         */</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> &#123;<br>            <span class="hljs-comment">//组装Netty参数</span><br>            <span class="hljs-type">RpcMessage</span> <span class="hljs-variable">rpcMessage</span> <span class="hljs-operator">=</span> RpcMessage.builder()<br>                    .name(method.getDeclaringClass().getName())<br>                    .methodName(method.getName())<br>                    .parTypes(method.getParameterTypes())<br>                    .pars(args)<br>                    .build();<br>            <span class="hljs-comment">//调用Netty，发送数据</span><br>            <span class="hljs-type">RpcMessage</span> <span class="hljs-variable">send</span> <span class="hljs-operator">=</span> nettyClient.send(<span class="hljs-number">1111</span>, rpcMessage);<br>            log.info(<span class="hljs-string">&quot;接收到服务端数据：&#123;&#125;, 返回结果值 ====》》》》&#123;&#125;&quot;</span>, send, send.getResult());<br>            <span class="hljs-keyword">return</span> send.getResult();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>定义客户端配置类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 18:24</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientBeanConfig</span> &#123;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> NettyClient <span class="hljs-title function_">nettyClient</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NettyClient</span>();<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> NettyClientBeanPostProcessor <span class="hljs-title function_">nettyClientBeanPostProcessor</span><span class="hljs-params">(NettyClient nettyClient)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NettyClientBeanPostProcessor</span>(nettyClient);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>最后和服务端一样，注入Spring容器</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 23:48</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@ImportAutoConfiguration(&#123;ClientBeanConfig.class&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableNettyClient &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>至此我们的SpringBoot + Netty4的就已经实现了最最简单的rpc框架模式了；然后我们就可以引用我们自己的rpc依赖了。</p>
+<p><strong>最后再执行一下maven命令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">mvn install<br></code></pre></td></tr></table></figure>
+
+<h2 id="netty-rpc-examples例子"><a href="#netty-rpc-examples例子" class="headerlink" title="netty-rpc-examples例子"></a>netty-rpc-examples例子</h2><h3 id="接口服务"><a href="#接口服务" class="headerlink" title="接口服务"></a>接口服务</h3><p>pom里啥也没有。。。</p>
+<p><strong>定义一个接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zc</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/1 17:55</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Test1Api</span> &#123;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">(<span class="hljs-type">int</span> id, String name)</span>;<br><br>    String <span class="hljs-title function_">testStr</span><span class="hljs-params">(<span class="hljs-type">int</span> id)</span>;<br><br>    Object <span class="hljs-title function_">testObj</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="rpc-server服务端"><a href="#rpc-server服务端" class="headerlink" title="rpc-server服务端"></a>rpc-server服务端</h3><blockquote>
+<p>正常的SpringBoot工程</p>
+</blockquote>
+<p><strong>引入pom</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 自定义rpc依赖 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>cn.happyloves.rpc<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>netty-rpc<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 接口依赖 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>cn.happyloves.netty.rpc.examples.api<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>rpc-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>配置属性</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 应用名称</span><br><span class="hljs-attr">spring.application.name</span>=<span class="hljs-string">rpc-server</span><br><span class="hljs-comment"># 应用服务 WEB 访问端口</span><br><span class="hljs-attr">server.port</span>=<span class="hljs-string">8080</span><br><span class="hljs-attr">netty.server-port</span>=<span class="hljs-string">1111</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>创建一个实体类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/2 23:59</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Account</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">serialVersionUID</span> <span class="hljs-operator">=</span> <span class="hljs-number">667178018106218163L</span>;<br>    <span class="hljs-keyword">private</span> Integer id;<br><br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> String username;<br>    <span class="hljs-keyword">private</span> String password;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建Server实现Test1Api接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/2 23:59</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-meta">@RpcServer</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Test1Api</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>        log.info(<span class="hljs-string">&quot;111111111&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">(<span class="hljs-type">int</span> id, String name)</span> &#123;<br>        log.info(<span class="hljs-string">&quot;222222222,&#123;&#125;,&#123;&#125;&quot;</span>, id, name);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">testStr</span><span class="hljs-params">(<span class="hljs-type">int</span> id)</span> &#123;<br>        log.info(<span class="hljs-string">&quot;33333333333333333,&#123;&#125;&quot;</span>, id);<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;33333333333333333 &quot;</span> + id;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">testObj</span><span class="hljs-params">()</span> &#123;<br>        log.info(<span class="hljs-string">&quot;444444444444444444&quot;</span>);<br>        <span class="hljs-type">Account</span> <span class="hljs-variable">account</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Account</span>();<br>        account.setName(<span class="hljs-string">&quot;张三&quot;</span>);<br>        <span class="hljs-keyword">return</span> account;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>最后在SpringBoot启动类上加上@EnableNettyServer</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/2 23:55</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@EnableNettyServer</span><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RpcServerApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(RpcServerApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="rpc-server客户端"><a href="#rpc-server客户端" class="headerlink" title="rpc-server客户端"></a>rpc-server客户端</h3><p><strong>引入pom依赖</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>cn.happyloves.rpc<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>netty-rpc<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>cn.happyloves.netty.rpc.examples.api<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>rpc-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>创建Controller</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> ZC</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2021/3/3 0:04</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientController</span> &#123;<br>    <span class="hljs-meta">@RpcServer</span><br>    <span class="hljs-keyword">private</span> Test1Api testServiceImpl;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/test1&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>        testServiceImpl.test();<br>    &#125;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/test2&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">(<span class="hljs-type">int</span> id, String name)</span> &#123;<br>        testServiceImpl.test(id, name);<br>    &#125;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/test3&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">testStr</span><span class="hljs-params">(<span class="hljs-type">int</span> id)</span> &#123;<br>        <span class="hljs-keyword">return</span> testServiceImpl.testStr(id);<br>    &#125;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/test4&quot;)</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">testObj</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> testServiceImpl.testObj();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>最后在启动类上加上注解@EnableNettyClient</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@EnableNettyClient</span><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RpcClientApplication</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SpringApplication.run(RpcClientApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先运行服务端，在运行客户端，然后在调用客户端接口就可以看到服务端能够接收到客户端发来的消息，然后服务端处理并返回，客户端接收并返回。。。</p>
+<p>至此，一个小demo就完成了。</p>
+<p>当然啦，后续还有很多需求需要处理的，比方说当前demo中客户端每次通信都需要创建一个实例去连接、服务的注册、客户端和服务端是同一个应用等等，这个后面再慢慢完善吧</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/SpringBoot/" class="category-chain-item">SpringBoot</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/SpringBoot/">#SpringBoot</a>
+      
+        <a href="/tags/Netty/">#Netty</a>
+      
+        <a href="/tags/RPC/">#RPC</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【SpringBoot】整合Netty实现RPC</div>
+      <div>https://happyloves.cn/20220831/9cb1fe5a2724.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>赵小胖</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20220831/018ea5d4ed71.html" title="RabbitMQ 配置属性">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RabbitMQ 配置属性</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20220831/ebcfd7f5bf6b.html" title="LambdaCriteria">
+                        <span class="hidden-mobile">LambdaCriteria</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> 
+    </div>
+  
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("11/23/2022 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+  </script>
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量(PV) 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数(UV) 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备16029428号-2
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=16029428"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏ICP备16029428号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1191 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="赵小胖">
+  <meta name="keywords" content="赵小胖的小破站">
+  
+    <meta name="description" content="服务注册与发现官方文档-注册中心 1. 第一步-引入依赖方式一： 只引入 spring-cloud-starter-tencent-polaris-discovery1234&lt;dependency&gt;    &lt;groupId&gt;com.tencent.cloud&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-cloud-starter-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【SpringCloud】SpringCloud 集成 STC（腾讯北极星）">
+<meta property="og:url" content="https://happyloves.cn/20230215/8a7fe802d0b3.html">
+<meta property="og:site_name" content="赵小胖的小破站">
+<meta property="og:description" content="服务注册与发现官方文档-注册中心 1. 第一步-引入依赖方式一： 只引入 spring-cloud-starter-tencent-polaris-discovery1234&lt;dependency&gt;    &lt;groupId&gt;com.tencent.cloud&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-cloud-starter-">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/4991116/161026971-f57814fc-6e26-47ad-aa6d-16ff1e8d57ad.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/4991116/170200088-b4a4a1c0-a550-4400-8f17-923565f7b4ec.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/4991116/171319787-278ac349-da99-4cc1-a264-6e91c150fbe0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/4991116/161234560-ad9fb472-29da-41ff-95fc-3c805cd86357.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/4991116/161363924-49d8988b-cf25-485c-a5c4-075f1075f7d9.png">
+<meta property="article:published_time" content="2023-02-15T13:48:49.528Z">
+<meta property="article:modified_time" content="2023-02-15T13:57:02.285Z">
+<meta property="article:author" content="赵小胖">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="腾讯">
+<meta property="article:tag" content="北极星">
+<meta property="article:tag" content="polaris">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/4991116/161026971-f57814fc-6e26-47ad-aa6d-16ff1e8d57ad.png">
+  
+  
+  
+  <title>【SpringCloud】SpringCloud 集成 STC（腾讯北极星） - 赵小胖的小破站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"happyloves.cn","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"77467d426fd8e17471dc0520a8882dc9","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"w5hrdwS9CBDKyVDGP0L6J2An-gzGzoHsz","app_key":"vBrGm5dYyMgwICg2lhDV1ZW6","server_url":"https://w5hrdws9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?77467d426fd8e17471dc0520a8882dc9";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>赵小胖的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/mikutap/">
+                    
+                    mikutap
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/wechat-format/">
+                    
+                    wechat-format
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/jsonCrack/">
+                    
+                    jsonCrack
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.likepoems.com/img/pc') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【SpringCloud】SpringCloud 集成 STC（腾讯北极星）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-15 21:48" pubdate>
+          2023年2月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          90 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【SpringCloud】SpringCloud 集成 STC（腾讯北极星）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="服务注册与发现"><a href="#服务注册与发现" class="headerlink" title="服务注册与发现"></a>服务注册与发现</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/spring-cloud-tencent/wiki/Spring-Cloud-Tencent-Discovery-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">官方文档-注册中心</a></p>
+<h3 id="1-第一步-引入依赖"><a href="#1-第一步-引入依赖" class="headerlink" title="1. 第一步-引入依赖"></a>1. 第一步-引入依赖</h3><h4 id="方式一：-只引入-spring-cloud-starter-tencent-polaris-discovery"><a href="#方式一：-只引入-spring-cloud-starter-tencent-polaris-discovery" class="headerlink" title="方式一： 只引入 spring-cloud-starter-tencent-polaris-discovery"></a>方式一： 只引入 spring-cloud-starter-tencent-polaris-discovery</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-polaris-discovery&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<h3 id="方式二：通过-spring-cloud-starter-tencent-all-引入-sct-所有-starters"><a href="#方式二：通过-spring-cloud-starter-tencent-all-引入-sct-所有-starters" class="headerlink" title="方式二：通过 spring-cloud-starter-tencent-all 引入 sct 所有 starters"></a>方式二：通过 spring-cloud-starter-tencent-all 引入 sct 所有 starters</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-all&lt;/artifactId&gt;<br>    &lt;!-- 注意需要指定 type=pom--&gt;<br>    &lt;type&gt;pom&lt;/type&gt; <br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>如果使用 Spring Cloud 2021 版本，还需要添加如下依赖：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-第二步-配置"><a href="#2-第二步-配置" class="headerlink" title="2.第二步-配置"></a>2.第二步-配置</h3><p>在 bootstrap.yml 配置文件中加入以下配置内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">$&#123;application.name&#125;</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">polaris:</span><br>      <span class="hljs-attr">address:</span> <span class="hljs-string">grpc://$&#123;修改为第一步部署的</span> <span class="hljs-string">Polaris</span> <span class="hljs-string">服务地址&#125;:8091</span><br>      <span class="hljs-attr">namespace:</span> <span class="hljs-string">default</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>完整的的配置列表如下</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项Key</th>
+<th>默认值</th>
+<th>是否必填</th>
+<th>初始版本</th>
+<th>配置项说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring.cloud.polaris.address</td>
+<td>无</td>
+<td>是</td>
+<td></td>
+<td>Polaris 后端地址</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.namespace</td>
+<td>default</td>
+<td>否</td>
+<td></td>
+<td>服务所在的命名空间名称</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.service</td>
+<td>${spring.application.name}</td>
+<td>否</td>
+<td></td>
+<td>服务名称</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.local-ip-address</td>
+<td>无</td>
+<td>否</td>
+<td></td>
+<td>注册的 IP 地址，默认情况下 Spring Boot 会自动获取 IP 地址无需指定 IP 地址，当需要自定义 IP 地址时才需要设置</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.enabled</td>
+<td>true</td>
+<td>否</td>
+<td></td>
+<td>是否开启服务发现</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.register</td>
+<td>true</td>
+<td>否</td>
+<td></td>
+<td>是否开启服务注册</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.instance-enabled</td>
+<td>true</td>
+<td>否</td>
+<td></td>
+<td>当前微服务实例是否可以被访问</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.health-check-url</td>
+<td>无</td>
+<td>否</td>
+<td></td>
+<td>健康检查 url，向北极星服务端发送心跳前回调健康检查 url 判断当前服务是否健康，只有健康才会发送心跳</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.token</td>
+<td>无</td>
+<td>否</td>
+<td></td>
+<td>鉴权 Token</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.version</td>
+<td>null</td>
+<td>否</td>
+<td></td>
+<td>微服务版本</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.protocol</td>
+<td>null</td>
+<td>否</td>
+<td></td>
+<td>微服务协议类型</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.weight</td>
+<td>100</td>
+<td>否</td>
+<td></td>
+<td>微服务权重</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.service-list-refresh-interval</td>
+<td>60000</td>
+<td>否</td>
+<td></td>
+<td>服务列表刷新间隔（毫秒）</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.discovery.heartbeat-interval</td>
+<td>5000</td>
+<td>否</td>
+<td>1.7.0</td>
+<td>心跳间隔（毫秒）</td>
+</tr>
+</tbody></table>
+<h3 id="3-第三步-服务调用"><a href="#3-第三步-服务调用" class="headerlink" title="3.第三步-服务调用"></a>3.第三步-服务调用</h3><p>在 Spring Cloud 中可通过 <code>RestTemplate</code> 或者 <code>Feign</code> 发起服务调用。无论通过哪种方式，都需要引入 <code>spring-cloud-starter-tencent-polaris-discovery</code> 依赖，才能从北极星获取服务提供者的地址信息。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.tencent.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-tencent-polaris-discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>RestTemplate</strong></p>
+<p>只需要在实例化 <code>RestTemplate</code> 的地方加上 <code>@LoadBalanced</code> 注解即可。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@Bean</span><br><span class="hljs-variable">@LoadBalanced</span><br>public RestTemplate <span class="hljs-built_in">restTemplate</span>() &#123;<br>	<span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">RestTemplate</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>Feign</strong></p>
+<p>通过 <code>Feign</code> 框架调用，无需做任何适配工作，按照标准的 <code>Feign</code> 方式即可。</p>
+<h3 id="4-第四步-前往控制台查看"><a href="#4-第四步-前往控制台查看" class="headerlink" title="4.第四步-前往控制台查看"></a>4.第四步-前往控制台查看</h3><p>可以前往北极星服务端控制台查看实例信息，可以在控制台上对实例进行一系列管控操作，例如隔离实例，调整实例权重等</p>
+<p><img src="https://user-images.githubusercontent.com/4991116/161026971-f57814fc-6e26-47ad-aa6d-16ff1e8d57ad.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/spring-cloud-tencent/wiki/Spring-Cloud-Tencent-Config-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">官方文档-配置中心，如何在北极星控制台添加配置文件，拓展使用，北极星配置中心原理介绍</a></p>
+<p>配置中心模块是 Spring Cloud Tencent 最核心的模块之一，实现了 Spring Cloud PropertySourceLocator SPI 接口(PolarisConfigFileLocator.java)。</p>
+<p>在应用启动 Bootstrap 阶段，Spring Cloud 会调用 PolarisConfigFileLocator 从 Polaris 服务端获取配置文件并加载到 Spring 上下文里。通过 Spring Boot 标准的 @Value，@ConfigurationProperties 注解即可获取配置内容。</p>
+<p>动态配置刷新能力，1.6.0 版本之前通过 Spring Cloud 标准的 @RefreshScope 机制实现。 1.6.0 版本之后，通过反射的方式实现。反射的方式不用重新构建 bean 对象，影响面更小、性能更优。</p>
+<blockquote>
+<p>注意：</p>
+<ol>
+<li>由于 Spring Cloud PropertySourceLoader SPI 是在 Bootstrap 阶段调用，所以 Polaris Config 相关的配置内容（例如Polaris 服务地址）需要放在 bootstrap.yml 文件里，而不能放在 application.yml 文件里，否则会初始化失败。</li>
+<li>如果开发者原本的服务名（ spring.application.name ）配置在 application.yml 、application-<em>.yml 、application.properties 或 application-</em>.properties 内，使用 Spring Cloud Tencent Config 的功能时，需要将 spring.application.name 配置在 bootstrap.yml 内，或者在 bootstrap.yml 手动配置 spring.cloud.polaris.service 以指定文件分组名。</li>
+</ol>
+</blockquote>
+<h3 id="1-第一步-引入依赖-1"><a href="#1-第一步-引入依赖-1" class="headerlink" title="1. 第一步-引入依赖"></a>1. 第一步-引入依赖</h3><h4 id="方式一：只引入-spring-cloud-starter-tencent-polaris-config"><a href="#方式一：只引入-spring-cloud-starter-tencent-polaris-config" class="headerlink" title="方式一：只引入 spring-cloud-starter-tencent-polaris-config"></a>方式一：只引入 spring-cloud-starter-tencent-polaris-config</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-polaris-config&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<h4 id="方式二：通过-spring-cloud-starter-tencent-all-引入-sct-所有-starters-1"><a href="#方式二：通过-spring-cloud-starter-tencent-all-引入-sct-所有-starters-1" class="headerlink" title="方式二：通过 spring-cloud-starter-tencent-all 引入 sct 所有 starters"></a>方式二：通过 spring-cloud-starter-tencent-all 引入 sct 所有 starters</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-all&lt;/artifactId&gt;<br>    &lt;!-- 注意需要指定 type=pom--&gt;<br>    &lt;type&gt;pom&lt;/type&gt; <br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<p><strong>如果使用 Spring Cloud 2021 版本，还需要添加如下依赖：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<h3 id="2-第二步-配置-1"><a href="#2-第二步-配置-1" class="headerlink" title="2.第二步-配置"></a>2.第二步-配置</h3><blockquote>
+<p>在您项目的 bootstrap.yml 配置文件中加入以下配置内容，注意一定要放在 bootstrap.yml 里。因为应用启动强依赖配置，所以 Spring Cloud Config 是在 Bootstrap 阶段加载配置文件，所以需要把北极星相关的配置放在 bootstrap.yml 里。</br><br>bootstrap.yml 核心配置内容为配置北极星服务端地址以及注入的配置文件信息。</p>
+</blockquote>
+<h4 id="1-配置-Polaris-配置中心地址"><a href="#1-配置-Polaris-配置中心地址" class="headerlink" title="1. 配置 Polaris 配置中心地址"></a>1. 配置 Polaris 配置中心地址</h4><p>如果您使用的北极星配置中心和注册中心是同一套北极星集群，则只需配置 spring.cloud.polaris.address 即可。</p>
+<p>如果您部署了两套北极星集群，分别用于注册中心和配置中心，则 spring.cloud.polaris.address 用于指定注册中心集群的地址，spring.cloud.polaris.config.address 用于指定配置中心的地址。</p>
+<p>如下所示：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">$&#123;application.name&#125;</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">polaris:</span><br>      <span class="hljs-attr">address:</span> <span class="hljs-string">grpc://$&#123;修改为第一步部署的</span> <span class="hljs-string">Polaris</span> <span class="hljs-string">服务地址&#125;:8091</span> <span class="hljs-comment"># 必填</span><br>      <span class="hljs-attr">namespace:</span> <span class="hljs-string">default</span> <span class="hljs-comment"># 全局 namespace 参数</span><br>      <span class="hljs-attr">config:</span><br>        <span class="hljs-attr">address:</span> <span class="hljs-string">grpc://$&#123;独立的配置中心&#125;:8093</span> <span class="hljs-comment"># 选填，只有在配置中心和注册中心是两个不同的地址时才需要配置</span><br>        <span class="hljs-attr">auto-refresh:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 选填，当配置发布后，动态刷新 Spring 上下文，默认值为 true</span><br></code></pre></td></tr></table></figure>
+<h4 id="2-注入配置文件"><a href="#2-注入配置文件" class="headerlink" title="2. 注入配置文件"></a>2. 注入配置文件</h4><p>我们推荐的最佳实践是在北极星管控端创建一个名为当前应用名（ ${spring.application.name}） 的配置分组，Spring Cloud Tencent Config 会自动注入当前应用名分组下的</p>
+<blockquote>
+<ul>
+<li>application-${activeProfile}.properties </li>
+<li>application-${activeProfile}.yml </li>
+<li>application.properties </li>
+<li>application.yml </li>
+<li>bootstrap-${activeProfile}.properties </li>
+<li>bootstrap-${activeProfile}.yml </li>
+<li>bootstrap.properties </li>
+<li>bootstrap.yml</li>
+</ul>
+<p>优先级从上到下依次降低</p>
+<p><strong>注意：是 yml 后缀，而不是 yaml</strong></p>
+</blockquote>
+<p>自动注入以上配置文件符合 Spring Boot 的规范，能够满足绝大部分应用场景了。</p>
+<p>只有当您需要注入额外自定义的配置文件时，才需要在 bootstrap.yml 里配置 spring.cloud.polaris.config.groups，如下所示：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">polaris:</span><br>      <span class="hljs-attr">config:</span><br>        <span class="hljs-attr">groups:</span><br>          <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">$&#123;spring.application.name&#125;</span> <span class="hljs-comment"># 选填，注入自定义配置的配置分组</span><br>            <span class="hljs-attr">files:</span> [ <span class="hljs-string">&quot;config/application.properties&quot;</span>, <span class="hljs-string">&quot;config/bootstrap.yml&quot;</span> ] <span class="hljs-comment"># 注入自定义配置文件列表，当 key 冲突时，排在前面的配置文件优先级高于后面</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>完整的配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项Key</th>
+<th>起始版本</th>
+<th>默认值</th>
+<th>是否必填</th>
+<th>配置项说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring.cloud.polaris.config.enabled</td>
+<td></td>
+<td>true</td>
+<td>否</td>
+<td>是否开启配置模块</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.address</td>
+<td></td>
+<td>无</td>
+<td>否</td>
+<td>北极星服务端地址，可不填。当配置中心和注册中心为不同的地址时候才需要填写</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.port</td>
+<td></td>
+<td>8093</td>
+<td>否</td>
+<td>北极星配置中心的端口号，默认为 8093</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.auto-refresh</td>
+<td></td>
+<td>true</td>
+<td>否</td>
+<td>是否动态更新配置</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.groups</td>
+<td></td>
+<td>无</td>
+<td>否</td>
+<td>从北极星服务端获取自定义的配置文件</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.connect-remote-server</td>
+<td></td>
+<td>true</td>
+<td>否</td>
+<td>是否连接到远程北极星配置中心服务端，当没有网络环境或者无北极星服务端时可关闭</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.refresh-type</td>
+<td>1.7.0</td>
+<td>refresh_context</td>
+<td>否</td>
+<td>动态刷新配置的实现方式。 <code>refresh_context</code> 为 Spring Cloud 默认的方式, <code>reflect</code> 为 SCT 实现的通过反射的机制实现的，优点是无需重建 Bean</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.shutdown-if-connect-to-config-server-failed</td>
+<td>1.7.0</td>
+<td>true</td>
+<td>否</td>
+<td>应用启动时检查配置中心的后端连接，如果连接配置中心失败，是否需要终止应用启动（true 为终止启动）</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.data-source</td>
+<td>1.8.0</td>
+<td>polaris</td>
+<td>否</td>
+<td>动态配置数据源类型，当前支持 polaris 和 local 两种模式，默认为 polaris。 - polaris: 从北极星服务端获取配置文件。 - local: 从本地磁盘读取配置文件</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.config.local-file-root-path</td>
+<td>1.8.0</td>
+<td>.&#x2F;polaris&#x2F;backup&#x2F;config</td>
+<td>否</td>
+<td>当 <code>spring.cloud.polaris.config.data-source=local</code> 时，可设置本地磁盘读取配置文件根目录</td>
+</tr>
+</tbody></table>
+<h3 id="3-第三步-代码里使用配置"><a href="#3-第三步-代码里使用配置" class="headerlink" title="3.第三步-代码里使用配置"></a>3.第三步-代码里使用配置</h3><h4 id="1-通过-Value-注入"><a href="#1-通过-Value-注入" class="headerlink" title="1. 通过 @Value 注入"></a>1. 通过 <code>@Value</code> 注入</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Value(&quot;$&#123;name:张三&#125;&quot;)</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> name;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-通过-ConfigurationProperties-注入"><a href="#2-通过-ConfigurationProperties-注入" class="headerlink" title="2. 通过 @ConfigurationProperties 注入"></a>2. 通过 <code>@ConfigurationProperties</code> 注入</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@ConfigurationProperties(prefix = &quot;teacher&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyProperties</span> &#123;<br>	<span class="hljs-keyword">private</span> String name;<br>	<span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-第四步-控制台发布配置"><a href="#4-第四步-控制台发布配置" class="headerlink" title="4.第四步-控制台发布配置"></a>4.第四步-控制台发布配置</h3><h3 id="创建并发布配置文件"><a href="#创建并发布配置文件" class="headerlink" title="创建并发布配置文件"></a>创建并发布配置文件</h3><p>北极星配置中心的控制台，配置文件名可以通过 &#x2F; 来按树状目录结构展示，树状结构可以清晰的管理配置文件。例如一个应用下分不同的模块，每个模块都有独立的一组配置文件，则可以创建 <code> module1/file1.properties</code>, <code>module1/file2.yaml</code>, <code>module2/file3.yaml</code>。</p>
+<blockquote>
+<p>注意：配置文件名强烈建议带文件后缀，例如 <code>.properties</code> <code>.yaml</code> <code>.yml</code> <code>.json</code> 等。因为客户端会通过文件名后缀来解析文件内容，如果客户端发现不认识的后缀名则默认当做 <code>.properties</code> 文件处理。</p>
+</blockquote>
+<p>配置好的实例如下图所示：</p>
+<p><img src="https://user-images.githubusercontent.com/4991116/170200088-b4a4a1c0-a550-4400-8f17-923565f7b4ec.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h3 id="北极星配置中心原理介绍"><a href="#北极星配置中心原理介绍" class="headerlink" title="北极星配置中心原理介绍"></a>北极星配置中心原理介绍</h3><p><img src="https://user-images.githubusercontent.com/4991116/171319787-278ac349-da99-4cc1-a264-6e91c150fbe0.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p><strong>客户端端视角</strong></p>
+<ol>
+<li>应用启动时，同步从服务端拉取一次配置，获取最新的配置内容</li>
+<li>把第一步拉取到的所有的配置文件生成 <code>List&lt;File-&gt;Version&gt;</code> 的数据 ，并向服务端发送订阅配置请求，请求内容为 <code>List&lt;File-&gt;Version&gt;</code></li>
+<li>当收到配置文件的推送消息时，向服务端拉取最新的配置文件</li>
+</ol>
+<p><strong>订阅配置服务端视角</strong></p>
+<ol>
+<li>先检查客户端 <code>List&lt;File-&gt;Version&gt;</code> 的请求里是否存在 File 版本号落后，如果存在，则立马响应 <code>File -&gt; NewVersion</code> 内容给客户端</li>
+<li>如果客户端配置文件版本号都是最新的，则在内存里维护 <code>File -&gt; List&lt;Client&gt;</code> 的数据结构并 Hold 请求 30s。如果 30s 内有配置文件发布，则立马响应请求，返回 <code>File -&gt; NewVersion</code> 给所有客户端</li>
+</ol>
+<p><strong>发布推送配置简化流程</strong></p>
+<ol>
+<li>用户在界面点击发布按钮，服务端更新数据库里配置发布表的数据。配置发布表的核心字段：<code>file, version, content, mtime</code></li>
+<li>每个北极星服务端实例，都会定时1s扫描配置发布表，根据 mtime 捞出最近 1s 内变更过的数据</li>
+<li>北极星服务端实例扫描到最新变更的数据之后</li>
+</ol>
+<ul>
+<li>重新加载内存缓存</li>
+<li>向内存里的消息发布管道里写入一条消息</li>
+</ul>
+<ol>
+<li>推送协程从消息发布管道里获取到消息，并消费消息。通过 <code>File -&gt; List&lt;Client&gt;</code> 信息，获取所有订阅配置文件的客户端信息，并响应客户端 Hold 的请求。</li>
+</ol>
+<h2 id="服务限流"><a href="#服务限流" class="headerlink" title="服务限流"></a>服务限流</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/spring-cloud-tencent/wiki/Spring-Cloud-Tencent-Rate-Limit-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">官方文档</a></p>
+<h3 id="1-第一步-引入依赖-2"><a href="#1-第一步-引入依赖-2" class="headerlink" title="1.第一步-引入依赖"></a>1.第一步-引入依赖</h3><h4 id="方式一：只引入spring-cloud-starter-tencent-polaris-ratelimit"><a href="#方式一：只引入spring-cloud-starter-tencent-polaris-ratelimit" class="headerlink" title="方式一：只引入spring-cloud-starter-tencent-polaris-ratelimit"></a>方式一：只引入<code>spring-cloud-starter-tencent-polaris-ratelimit</code></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-polaris-ratelimit&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="方式二：通过-spring-cloud-starter-tencent-all-引入-sct-所有-starters-2"><a href="#方式二：通过-spring-cloud-starter-tencent-all-引入-sct-所有-starters-2" class="headerlink" title="方式二：通过 spring-cloud-starter-tencent-all 引入 sct 所有 starters"></a><strong>方式二：通过 <code>spring-cloud-starter-tencent-all</code> 引入 sct 所有 starters</strong></h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-all&lt;/artifactId&gt;<br>    &lt;!-- 注意需要指定 type=pom--&gt;<br>    &lt;type&gt;pom&lt;/type&gt; <br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<p>如果使用 <code>Spring Cloud 2021</code> 版本，还需要添加如下依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-第二步-配置-2"><a href="#2-第二步-配置-2" class="headerlink" title="2.第二步-配置"></a>2.第二步-配置</h3><p>在您的 <code>bootstrap.yml</code> 配置文件中加入以下配置内容</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">$&#123;application.name&#125;</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">polaris:</span><br>      <span class="hljs-attr">address:</span> <span class="hljs-string">grpc://$&#123;修改为第一步部署的</span> <span class="hljs-string">Polaris</span> <span class="hljs-string">服务地址&#125;:8091</span><br>      <span class="hljs-attr">namespace:</span> <span class="hljs-string">default</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>配置列表</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项Key</th>
+<th>默认值</th>
+<th>是否必填</th>
+<th>配置项说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring.cloud.polaris.ratelimit.enabled</td>
+<td>true</td>
+<td>否</td>
+<td>是否开启服务限流</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.ratelimit.rejectRequestTips</td>
+<td></td>
+<td>否</td>
+<td>自定义拒绝请求响应的文本内容</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.ratelimit.rejectRequestTipsFilePath</td>
+<td></td>
+<td>否</td>
+<td>自定义拒绝请求响应内容的文件地址，常用于返回 html 文件内容等。目前仅支持 classpath 下的文件，放在 resources 目录。</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.ratelimit.rejectHttpCode</td>
+<td>429(Too Many Request)</td>
+<td>否</td>
+<td>自定义拒绝请求响应的 Http 状态码</td>
+</tr>
+<tr>
+<td>spring.cloud.polaris.ratelimit.maxQueuingTime</td>
+<td>1000</td>
+<td>否</td>
+<td>匀速排队限流最大排队时间</td>
+</tr>
+</tbody></table>
+<h3 id="4-第四步-控制台配置限流规则"><a href="#4-第四步-控制台配置限流规则" class="headerlink" title="4.第四步-控制台配置限流规则"></a>4.第四步-控制台配置限流规则</h3><p>可以在北极星控制台动态配置限流规则。</p>
+<h2 id="服务熔断"><a href="#服务熔断" class="headerlink" title="服务熔断"></a>服务熔断</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/spring-cloud-tencent/wiki/Spring-Cloud-Tencent-Circuitbreaker-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3">官方文档</a></p>
+<p>故障实例熔断是常见的一种容错保护机制。故障实例熔断能实现主调方迅速自动屏蔽错误率高或故障的服务实例，并启动定时任务对熔断实例进行探活。在达到恢复条件后对其进行半开恢复。在半开恢复后，释放少量请求去进行真实业务探测。并根据真实业务探测结果去判断是否完全恢复正常。</p>
+<p>如下图所示当被调端 <code>Instance3</code> 出现异常时，主调端会自动的把请求只打到 <code>Instance1</code>，<code>Instance2</code>，通过这种方式保证主调端能够正常的调用服务。</p>
+<p><img src="https://user-images.githubusercontent.com/4991116/161234560-ad9fb472-29da-41ff-95fc-3c805cd86357.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p><strong>熔断策略</strong></p>
+<ul>
+<li>故障比例熔断：当服务实例在上一个时间窗（默认1分钟）内，通过的请求量达到或超过最小请求阈值（默认10个），且错误率达到或超过故障比率阈值（默认<code>50%</code>），实例会进入隔离状态。故障比率的阈值范围是 <code>[0.0, 1.0]</code>，代表 <code>0% - 100%</code>。</li>
+<li>连续故障熔断：当实例在上一个时间窗（默认1分钟）内，连续失败的请求数达到或者超过连续故障阈值（默认10个），实例会进入隔离状态。</li>
+<li>熔断隔离时间：默认隔离<code>30s</code>，支持可配置。</li>
+</ul>
+<h3 id="1-第一步-引入服务注册与发现和熔断依赖"><a href="#1-第一步-引入服务注册与发现和熔断依赖" class="headerlink" title="1.第一步-引入服务注册与发现和熔断依赖"></a>1.第一步-引入服务注册与发现和熔断依赖</h3><h4 id="1-主调方和被调方都引入服务注册与发现依赖"><a href="#1-主调方和被调方都引入服务注册与发现依赖" class="headerlink" title="1. 主调方和被调方都引入服务注册与发现依赖"></a>1. 主调方和被调方都引入服务注册与发现依赖</h4><p>因为熔断能力依赖服务发现能力，所以需要主调方和被调方都引入服务注册与发现依赖。</p>
+<h5 id="1-1-引入-Spring-Cloud-Tencent-Discovery-Starter"><a href="#1-1-引入-Spring-Cloud-Tencent-Discovery-Starter" class="headerlink" title="1.1 引入 Spring Cloud Tencent Discovery Starter"></a>1.1 引入 Spring Cloud Tencent Discovery Starter</h5><p><strong>方式一：只引入<code>spring-cloud-starter-tencent-polaris-discovery</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-polaris-discovery&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>方式二：通过 <code>spring-cloud-starter-tencent-all</code> 引入 sct 所有 starters</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-all&lt;/artifactId&gt;<br>    &lt;!-- 注意需要指定 type=pom--&gt;<br>    &lt;type&gt;pom&lt;/type&gt; <br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<p>如果使用 <code>Spring Cloud 2021</code> 版本，还需要添加如下依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-主调方引入熔断依赖"><a href="#2-主调方引入熔断依赖" class="headerlink" title="2. 主调方引入熔断依赖"></a>2. 主调方引入熔断依赖</h4><p><strong>方式一：只引入 <code>spring-cloud-starter-tencent-polaris-circuitbreaker</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-polaris-circuitbreaker&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>方式二：通过 <code>spring-cloud-starter-tencent-all</code> 引入 sct 所有 starters</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;com.tencent.cloud&lt;/groupId&gt;<br>    &lt;artifactId&gt;spring-cloud-starter-tencent-all&lt;/artifactId&gt;<br>    &lt;!-- 注意需要指定 type=pom--&gt;<br>    &lt;type&gt;pom&lt;/type&gt; <br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-第二步：增加相关配置文件"><a href="#2-第二步：增加相关配置文件" class="headerlink" title="2.第二步：增加相关配置文件"></a>2.第二步：增加相关配置文件</h3><p>在您的 <code>bootstrap.yml</code> 配置文件中加入以下配置内容</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span><br>  <span class="hljs-attr">application:</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">$&#123;application.name&#125;</span><br>  <span class="hljs-attr">cloud:</span><br>    <span class="hljs-attr">polaris:</span><br>      <span class="hljs-attr">address:</span> <span class="hljs-string">grpc://$&#123;修改为第一步部署的</span> <span class="hljs-string">Polaris</span> <span class="hljs-string">服务地址&#125;:8091</span><br>      <span class="hljs-attr">namespace:</span> <span class="hljs-string">default</span><br>    <span class="hljs-attr">loadbalancer:</span><br>      <span class="hljs-attr">configurations:</span> <span class="hljs-string">polaris</span> <span class="hljs-comment"># 2020.0.x SDK需要添加这个配置</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>配置列表</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置项Key</th>
+<th>默认值</th>
+<th>是否必填</th>
+<th>配置项说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>spring.cloud.polaris.circuitbreaker.enabled</td>
+<td>true</td>
+<td>否</td>
+<td>是否开启故障熔断</td>
+</tr>
+</tbody></table>
+<h3 id="3-第三步-控制台配置熔断"><a href="#3-第三步-控制台配置熔断" class="headerlink" title="3.第三步-控制台配置熔断"></a>3.第三步-控制台配置熔断</h3><p>控制台提供了动态下发熔断配置的能力，如下图所示可以根据自身业务的实际场景调整参数。</p>
+<p><img src="https://user-images.githubusercontent.com/4991116/161363924-49d8988b-cf25-485c-a5c4-075f1075f7d9.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/SpringCloud/" class="category-chain-item">SpringCloud</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/SpringCloud/">#SpringCloud</a>
+      
+        <a href="/tags/%E8%85%BE%E8%AE%AF/">#腾讯</a>
+      
+        <a href="/tags/%E5%8C%97%E6%9E%81%E6%98%9F/">#北极星</a>
+      
+        <a href="/tags/polaris/">#polaris</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【SpringCloud】SpringCloud 集成 STC（腾讯北极星）</div>
+      <div>https://happyloves.cn/20230215/8a7fe802d0b3.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>赵小胖</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20221214/7fcdb2119ba7.html" title="C++基础入门">
+                        <span class="hidden-mobile">C++基础入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> 
+    </div>
+  
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("11/23/2022 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+  </script>
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量(PV) 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数(UV) 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备16029428号-2
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=16029428"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏ICP备16029428号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

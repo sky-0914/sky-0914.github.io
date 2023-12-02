@@ -1,0 +1,887 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="赵小胖">
+  <meta name="keywords" content="赵小胖的小破站">
+  
+    <meta name="description" content="Mysql索引原理与使用规则数据库索引到底是什么 是数据库管理系统（DBMS）中一个排序的数据结构，以协助快速查询、更新数据库表中数据。   索引值存储的是建立索引的值，比如说主键id建立索引，在系统中存储的是主键id和该条数据在磁盘中对应的地址；当查询条件根据索引查询时，查到了索引值，然后再根据索引中的地址快速定位到磁盘中的该条数据。 索引的数据结构数据结构图形工具：https:&#x2F;&#x2F;www.cs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2-Mysql索引原理与使用规则">
+<meta property="og:url" content="https://happyloves.cn/20220301/65a387d339c2.html">
+<meta property="og:site_name" content="赵小胖的小破站">
+<meta property="og:description" content="Mysql索引原理与使用规则数据库索引到底是什么 是数据库管理系统（DBMS）中一个排序的数据结构，以协助快速查询、更新数据库表中数据。   索引值存储的是建立索引的值，比如说主键id建立索引，在系统中存储的是主键id和该条数据在磁盘中对应的地址；当查询条件根据索引查询时，查到了索引值，然后再根据索引中的地址快速定位到磁盘中的该条数据。 索引的数据结构数据结构图形工具：https:&#x2F;&#x2F;www.cs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/07/25/pXONuCHUJ9bZrYQ.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/4LkoH6lubz7qgZw.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/RAlILcjTinD3Ox2.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/Ko6ItLbFr8qlnDN.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/KMDqheZNiyLz2sP.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/T86lejnbprRFWIH.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/hxgvRC8qOHYIp31.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/22/9koyvDjCASrINFu.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/23/VMKn5xCZyDLmtIO.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/23/shkYLtuM38QJ2xX.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/01/exCFEwbQWSRr9fq.png">
+<meta property="article:published_time" content="2022-03-01T15:19:16.000Z">
+<meta property="article:modified_time" content="2022-11-26T17:42:39.374Z">
+<meta property="article:author" content="赵小胖">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Mysql">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/25/pXONuCHUJ9bZrYQ.png">
+  
+  
+  
+  <title>2-Mysql索引原理与使用规则 - 赵小胖的小破站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"happyloves.cn","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"77467d426fd8e17471dc0520a8882dc9","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"w5hrdwS9CBDKyVDGP0L6J2An-gzGzoHsz","app_key":"vBrGm5dYyMgwICg2lhDV1ZW6","server_url":"https://w5hrdws9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?77467d426fd8e17471dc0520a8882dc9";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>赵小胖的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/mikutap/">
+                    
+                    mikutap
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/wechat-format/">
+                    
+                    wechat-format
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/jsonCrack/">
+                    
+                    jsonCrack
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.likepoems.com/img/pc') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2-Mysql索引原理与使用规则"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-01 23:19" pubdate>
+          2022年3月1日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">2-Mysql索引原理与使用规则</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Mysql索引原理与使用规则"><a href="#Mysql索引原理与使用规则" class="headerlink" title="Mysql索引原理与使用规则"></a>Mysql索引原理与使用规则</h1><h2 id="数据库索引到底是什么"><a href="#数据库索引到底是什么" class="headerlink" title="数据库索引到底是什么"></a>数据库索引到底是什么</h2><blockquote>
+<p>是数据库管理系统（DBMS）中一个排序的<font style="color:red">数据结构</font>，以协助快速查询、更新数据库表中数据。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2021/07/25/pXONuCHUJ9bZrYQ.png" srcset="/img/loading.gif" lazyload></p>
+<p>索引值存储的是建立索引的值，比如说主键id建立索引，在系统中存储的是主键id和该条数据在磁盘中对应的地址；当查询条件根据索引查询时，查到了索引值，然后再根据索引中的地址快速定位到磁盘中的该条数据。</p>
+<h2 id="索引的数据结构"><a href="#索引的数据结构" class="headerlink" title="索引的数据结构"></a>索引的数据结构</h2><p><font style="color:red">数据结构图形工具：<a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></font></p>
+<h3 id="二叉查找树（Binary-Search-Tree）"><a href="#二叉查找树（Binary-Search-Tree）" class="headerlink" title="二叉查找树（Binary Search Tree）"></a>二叉查找树（Binary Search Tree）</h3><blockquote>
+<p>左子树的节点小于父节点</p>
+<p>右子树的节点大于父节点</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/02/22/4LkoH6lubz7qgZw.png" srcset="/img/loading.gif" lazyload> </p>
+<p>在某些特定情况下，该数据结构会退化成链表形式；当数据按照有序的插入时（正序或倒叙）</p>
+<p><img src="https://s2.loli.net/2022/02/22/RAlILcjTinD3Ox2.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="平衡二叉树（AVL-Tree-Balanced-Binary-Search-Tree）"><a href="#平衡二叉树（AVL-Tree-Balanced-Binary-Search-Tree）" class="headerlink" title="平衡二叉树（AVL Tree - Balanced Binary Search Tree）"></a>平衡二叉树（AVL Tree - Balanced Binary Search Tree）</h3><blockquote>
+<p>约束：<font style="color:red">左右子树的深度差绝对值不能超过1</font></p>
+<p>插入数值后，会对左右子树的节点深度做检查对比，当违反了约束条件后，会根据数值进行左旋（左旋转）或右旋（右旋转）的调整</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/02/22/Ko6ItLbFr8qlnDN.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="AVL-数据存储"><a href="#AVL-数据存储" class="headerlink" title="AVL 数据存储"></a>AVL 数据存储</h4><blockquote>
+<ol>
+<li>键值：建立索引的字段值</li>
+<li>数据磁盘地址</li>
+<li>子节点引用</li>
+</ol>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/02/22/KMDqheZNiyLz2sP.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>注意：存储引擎从磁盘加载数据到Server层进行比较，这时Mysql加载磁盘数据时最小单位是Page（16 Kb &#x3D; 16384 bytes）；此时单个节点的数据不满16Kb，那么可以将子节点的数据上移，填满一页16Kb的大小，一个节点可以存储多个分叉节点（子节点指针），此时就变成了多路平衡查找树（Balanced Tree B树）</strong></p>
+<h3 id="多路平衡查找树（Balanced-Tree-B树）"><a href="#多路平衡查找树（Balanced-Tree-B树）" class="headerlink" title="多路平衡查找树（Balanced Tree B树）"></a>多路平衡查找树（Balanced Tree B树）</h3><blockquote>
+<p>特点：更多的键值、更多的节点与子节点指针；键值是N，度（Degree）是N+1，比如节点里存了两个键值，那么度就是3个，有3个分叉，有10个键值的话，有会有11个度，11个分叉。</p>
+<p>大大的降低了树的深度</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/02/22/T86lejnbprRFWIH.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="通过分裂、合并保持B树的平衡"><a href="#通过分裂、合并保持B树的平衡" class="headerlink" title="通过分裂、合并保持B树的平衡"></a>通过分裂、合并保持B树的平衡</h4><blockquote>
+<p>当B树不断插入数据时是通过分裂和合并的操作去实现B树的平衡</p>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/02/22/hxgvRC8qOHYIp31.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="B-Tree-加强版多路平衡查找树"><a href="#B-Tree-加强版多路平衡查找树" class="headerlink" title="B+Tree 加强版多路平衡查找树"></a>B+Tree 加强版多路平衡查找树</h3><blockquote>
+<p>特点：深度更低、I&#x2F;O稳定、范围，排序查询的性能大幅度的提升</p>
+<p>与B+Tree与B-Tree不同地方在于，它的度（Degree）与键值是相等的。</p>
+<p>根节点与子节点不会存储数据在磁盘上的地址，数据一律放到叶子节点上存储，而根节点与子节点存储的是键值与子节点引用指针，进一步减少树的深度。</p>
+<p>查找任何数据时，它的I&#x2F;O次数都是相同的；树整体的深度决定I&#x2F;O的次数。</p>
+<p>叶子节点还有个指针指向下一个相连叶子节点，让叶子节点形成一个有序的链表结构；范围查询时不用再返回根节点遍历查询了，直接通过叶子节点查找就可以了。</p>
+<p>优势：</p>
+<ol>
+<li>B-Tree能解决的，B+Tree都能解决</li>
+<li>扫库、扫表能力更强</li>
+<li>磁盘读写能力更强</li>
+<li>排序能力更强</li>
+<li>效率更加稳定</li>
+</ol>
+</blockquote>
+<p><img src="https://s2.loli.net/2022/02/22/9koyvDjCASrINFu.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h3><blockquote>
+<p>在innodb存储引擎中，为热点数据在内存中建立的KV关系；无法创建hash索引的。</p>
+<p>在memory存储引擎中是可以简历hash索引的。</p>
+</blockquote>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="聚集索引（聚簇索引）"><a href="#聚集索引（聚簇索引）" class="headerlink" title="聚集索引（聚簇索引）"></a>聚集索引（聚簇索引）</h3><blockquote>
+<p>索引的键值逻辑顺序与表数据行的物理顺序是一致的；在Innodb存储引擎中，主键索引就是聚集索引（聚簇索引），其他索引叫非聚集索引，又或者叫辅助索引、二级索引</p>
+</blockquote>
+<p>在Innodb存储引擎中，如果一张表没有主键，会找到某个字段是唯一索引并且不能为空的当做聚集索引（聚簇索引）；如果一张表中即没有主键也没有唯一并且不能为空的索引，那么存储引擎会自动创建一个隐藏字段_rowid（6 bytes），把它当做该表的聚集索引（聚簇索引）</p>
+<h3 id="二级索引（辅助索引、非聚集索引）"><a href="#二级索引（辅助索引、非聚集索引）" class="headerlink" title="二级索引（辅助索引、非聚集索引）"></a>二级索引（辅助索引、非聚集索引）</h3><p>创建二级索引时，在Innodb存储引擎中，二级索引的B+树中叶子节点存储的数据是主键值，这样先通过二级索引查找到该数据的主键，然后在通过主键值去主键索引中查找具体数据，该操作也步骤也叫做回表。相比较与聚集索引效率会低下，因为二级索引多查找了一棵索引树。</p>
+<p><img src="https://s2.loli.net/2022/02/23/VMKn5xCZyDLmtIO.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>查询的数据已经包含在了索引里了；</p>
+<p>比如表t，字段有id、name、age，索引有主键索引id，二级索引name。只查找name，这样根据二级索引的B+树查找到了张三的值，就接直接返回张三，不用回表，不用再根据主键值再去查找主键的B+树查数据了，这叫做覆盖索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> name <span class="hljs-keyword">FROM</span> t <span class="hljs-keyword">WHERE</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;张三&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="索引的使用原则"><a href="#索引的使用原则" class="headerlink" title="索引的使用原则"></a>索引的使用原则</h2><p>列的离散度（选择读）公式：count(distinct(count_name)):count(*)；重复值越少离散度越高。离散度越小建立的索引使用率越高。</p>
+<p>联合索引的最左匹配原则</p>
+<p><img src="https://s2.loli.net/2022/02/23/shkYLtuM38QJ2xX.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h2><p><img src="https://s2.loli.net/2022/03/01/exCFEwbQWSRr9fq.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t <span class="hljs-keyword">WHERE</span> age <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;18&#x27;</span> <span class="hljs-keyword">AND</span> name <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%三&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>正常情况下，存储引擎层根据索引查出<code>age=&#39;18&#39;</code>的数据，拿到Server层再根据<code>name LIKE &#39;%三&#39;</code>条件再过滤；如果<code>age=&#39;18&#39;</code>的数据有很多，那么拿到Server层的数据就很多，过滤也就很慢，代价较大；</p>
+<p>所以索引下推就是当存储引擎根据索引过滤出数据过大时，会将原本在Server过滤的条件，不满足于最左原则的索引下推到存储引擎层进行过滤，防止过大的数据到Server层进行过滤。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 默认是开启 on</span><br><span class="hljs-keyword">show</span> variables <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;optimizer_switch&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>得到结果值：index_merge&#x3D;on,index_merge_union&#x3D;on,index_merge_sort_union&#x3D;on,index_merge_intersection&#x3D;on,engine_condition_pushdown&#x3D;on,<font style="color:red">index_condition_pushdown&#x3D;on</font>,mrr&#x3D;on,mrr_cost_based&#x3D;on,block_nested_loop&#x3D;on,batched_key_access&#x3D;off,materialization&#x3D;on,semijoin&#x3D;on,loosescan&#x3D;on,firstmatch&#x3D;on,duplicateweedout&#x3D;on,subquery_materialization_cost_based&#x3D;on,use_index_extensions&#x3D;on,condition_fanout_filter&#x3D;on,derived_merge&#x3D;on</p>
+<p>index_condition_pushdown&#x3D;on 表示开启索引下推</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+      
+        <a href="/tags/Mysql/">#Mysql</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2-Mysql索引原理与使用规则</div>
+      <div>https://happyloves.cn/20220301/65a387d339c2.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>赵小胖</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年3月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20220408/a0d411e784b0.html" title="1-Mysql执行流程与架构">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">1-Mysql执行流程与架构</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20210525/1da1145904a0.html" title="阿里Arthas如何使用">
+                        <span class="hidden-mobile">阿里Arthas如何使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> 
+    </div>
+  
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("11/23/2022 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+  </script>
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量(PV) 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数(UV) 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备16029428号-2
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=16029428"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏ICP备16029428号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

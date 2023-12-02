@@ -1,0 +1,973 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="赵小胖">
+  <meta name="keywords" content="赵小胖的小破站">
+  
+    <meta name="description" content="React 基础入门教程React中文官网 demo样例： 123456789101112131415161718192021222324&lt;!DOCTYPE html&gt;&lt;html lang&#x3D;&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;    &lt;title&gt;TEST&amp;lt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React基础入门教程">
+<meta property="og:url" content="https://happyloves.cn/20220408/2c42955d3e53.html">
+<meta property="og:site_name" content="赵小胖的小破站">
+<meta property="og:description" content="React 基础入门教程React中文官网 demo样例： 123456789101112131415161718192021222324&lt;!DOCTYPE html&gt;&lt;html lang&#x3D;&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;    &lt;title&gt;TEST&amp;lt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/03/24/qY2bIOLzhsgK1fV.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/24/jbJCSoNipsql2X7.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/26/l3HKgexf7y2wnmc.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/26/5humsyKqxLcRCP8.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/26/91itJMZoAcTDa78.png">
+<meta property="article:published_time" content="2022-04-07T17:04:24.000Z">
+<meta property="article:modified_time" content="2022-11-26T17:39:32.680Z">
+<meta property="article:author" content="赵小胖">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/24/qY2bIOLzhsgK1fV.png">
+  
+  
+  
+  <title>React基础入门教程 - 赵小胖的小破站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"happyloves.cn","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"77467d426fd8e17471dc0520a8882dc9","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"w5hrdwS9CBDKyVDGP0L6J2An-gzGzoHsz","app_key":"vBrGm5dYyMgwICg2lhDV1ZW6","server_url":"https://w5hrdws9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?77467d426fd8e17471dc0520a8882dc9";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>赵小胖的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/mikutap/">
+                    
+                    mikutap
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/wechat-format/">
+                    
+                    wechat-format
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/jsonCrack/">
+                    
+                    jsonCrack
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.likepoems.com/img/pc') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="React基础入门教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-08 01:04" pubdate>
+          2022年4月8日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          20k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          165 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">React基础入门教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="React-基础入门教程"><a href="#React-基础入门教程" class="headerlink" title="React 基础入门教程"></a>React 基础入门教程</h1><p><a target="_blank" rel="noopener" href="https://react.docschina.org/">React中文官网</a></p>
+<p><strong>demo样例：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>TEST<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;test&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- react核心库 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react@17/umd/react.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- React虚拟DOM，用于支持react操作DOM --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/react-dom@17/umd/react-dom.production.min.js&quot;</span> <span class="hljs-attr">crossorigin</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 用于将jsx转为js --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/babel-standalone@6/babel.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/babel&quot;</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">	<span class="hljs-comment">//1.创建虚拟DOM</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> <span class="hljs-variable constant_">DOM</span> = <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>创建虚拟DOM方式一（JSX）<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span></span><br><span class="language-javascript">    <span class="hljs-comment">//2.渲染虚拟DOM到页面</span></span><br><span class="language-javascript">    <span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="hljs-variable constant_">DOM</span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="JSX规则"><a href="#JSX规则" class="headerlink" title="JSX规则"></a>JSX规则</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">1.</span> 定义虚拟DOM时，不要写引号。<br><span class="hljs-bullet">2.</span> 标签中混入JS表达式时要用&#123;&#125;。<br><span class="hljs-bullet">3.</span> 样式的类名指定不要用class，要用className。<br><span class="hljs-bullet">4.</span> 内联样式，要用style=&#123;&#123;key:value&#125;&#125;的形式去写。<br><span class="hljs-bullet">5.</span> 只有一个根标签<br><span class="hljs-bullet">6.</span> 标签必须闭合<br><span class="hljs-bullet">7.</span> 标签首字母<br><span class="hljs-bullet">   1.</span> 若小写字母开头，则将该标签转为html中同名元素，若html中无该标签对应的同名元素，则报错<br><span class="hljs-bullet">   2.</span> 若大写字母开头，react就去渲染对应的组件。若组件没有定义，则报错<br></code></pre></td></tr></table></figure>
+
+<h2 id="创建虚拟DOM方式"><a href="#创建虚拟DOM方式" class="headerlink" title="创建虚拟DOM方式"></a>创建虚拟DOM方式</h2><h3 id="方式一（JSX）"><a href="#方式一（JSX）" class="headerlink" title="方式一（JSX）"></a>方式一（JSX）</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jsx"><span class="hljs-comment">//1.创建虚拟DOM</span><br><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">DOM</span> = <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>创建虚拟DOM方式一（JSX）<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="hljs-comment">//2.渲染虚拟DOM到页面</span><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="hljs-variable constant_">DOM</span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<h3 id="方式二（JS）"><a href="#方式二（JS）" class="headerlink" title="方式二（JS）"></a>方式二（JS）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//1.创建虚拟DOM</span><br><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">VDOM</span> = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;h1&#x27;</span>,&#123;<span class="hljs-attr">id</span>:<span class="hljs-string">&#x27;title&#x27;</span>&#125;,<span class="hljs-title class_">React</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;span&#x27;</span>,&#123;&#125;,<span class="hljs-string">&#x27;Hello,React&#x27;</span>))<br><span class="hljs-comment">//2.渲染虚拟DOM到页面</span><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="hljs-variable constant_">VDOM</span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<h2 id="组件的定义方式"><a href="#组件的定义方式" class="headerlink" title="组件的定义方式"></a>组件的定义方式</h2><h3 id="方式一（函数式组件）"><a href="#方式一（函数式组件）" class="headerlink" title="方式一（函数式组件）"></a>方式一（函数式组件）</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs jsx"><span class="hljs-comment">//1.创建函数式组件</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">MyComponent</span>(<span class="hljs-params"></span>)&#123;<br>	<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>); <span class="hljs-comment">//此处的this是undefined，因为babel编译后开启了严格模式</span><br>	<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>我是用函数定义的组件(适用于【简单组件】的定义)<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br>&#125;<br><span class="hljs-comment">//2.渲染组件到页面</span><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyComponent</span>/&gt;</span></span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))<br><span class="hljs-comment">/* </span><br><span class="hljs-comment">	执行了ReactDOM.render(&lt;MyComponent/&gt;.......之后，发生了什么？</span><br><span class="hljs-comment">			1.React解析组件标签，找到了MyComponent组件。</span><br><span class="hljs-comment">			2.发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，随后呈现在页面中。</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="方式二（类式组件）"><a href="#方式二（类式组件）" class="headerlink" title="方式二（类式组件）"></a>方式二（类式组件）</h3><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs jsx"><span class="hljs-comment">//1.创建类式组件</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>	<span class="hljs-title function_">render</span>(<span class="hljs-params"></span>)&#123;<br>		<span class="hljs-comment">//render是放在哪里的？—— MyComponent的原型对象上，供实例使用。</span><br>		<span class="hljs-comment">//render中的this是谁？—— MyComponent的实例对象 &lt;=&gt; MyComponent组件实例对象。</span><br>		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;render中的this:&#x27;</span>,<span class="hljs-variable language_">this</span>);<br>		<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>我是用类定义的组件(适用于【复杂组件】的定义)<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br>	&#125;<br>&#125;<br><span class="hljs-comment">//2.渲染组件到页面</span><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">MyComponent</span>/&gt;</span></span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))<br><span class="hljs-comment">/* </span><br><span class="hljs-comment">	执行了ReactDOM.render(&lt;MyComponent/&gt;.......之后，发生了什么？</span><br><span class="hljs-comment">			1.React解析组件标签，找到了MyComponent组件。</span><br><span class="hljs-comment">			2.发现组件是使用类定义的，随后new出来该类的实例，并通过该实例调用到原型上的render方法。</span><br><span class="hljs-comment">			3.将render返回的虚拟DOM转为真实DOM，随后呈现在页面中。</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="组件实例的三大属性"><a href="#组件实例的三大属性" class="headerlink" title="组件实例的三大属性"></a>组件实例的三大属性</h2><h3 id="State（状态）"><a href="#State（状态）" class="headerlink" title="State（状态）"></a>State（状态）</h3><blockquote>
+<p>React 把组件看成是一个状态机（State Machines）。通过与用户的交互，实现不同状态，然后渲染 UI，让用户界面和数据保持一致。</p>
+<p>React 里，只需更新组件的 state，然后根据新的 state 重新渲染用户界面（不要操作 DOM）。</p>
+</blockquote>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs jsx"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    <span class="hljs-comment">//在组件中定义state属性，并且给它赋值。state必须是个对象</span><br>    state = &#123;<br>        <span class="hljs-attr">flag</span>: <span class="hljs-literal">false</span><br>    &#125;<br>    <span class="hljs-title function_">changeFlag</span>(<span class="hljs-params">flag</span>)&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;changeFlag&quot;</span>)<br>        <span class="hljs-comment">//必须通过父类的setState()方法重新赋值，React才会重新去调用render()方法重新渲染页面</span><br>        <span class="hljs-comment">//【严重注意】：状态必须通过setState进行更新,且更新是一种合并，不是替换。</span><br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<span class="hljs-attr">flag</span>: flag&#125;)<br>        <span class="hljs-comment">//【严重注意】：状态state属性不可直接更改，下面这行就是直接更改！！！</span><br>		<span class="hljs-comment">//this.state.flag = !flag //这是错误的写法</span><br>    &#125;<br>	<span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;render&quot;</span>)<br>        <span class="hljs-comment">//取出赋值属性</span><br>        <span class="hljs-keyword">const</span> &#123;flag&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span><br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>今天天气好&#123;flag ? &quot;炎热&quot; : &quot;凉爽&quot;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> this.changeFlag(!this.state.flag)&#125;&gt;点击我<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br>&#125;<br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span>/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h3 id="Props（传参）"><a href="#Props（传参）" class="headerlink" title="Props（传参）"></a>Props（传参）</h3><blockquote>
+<p>state 和 props 主要的区别在于 <strong>props</strong> 是不可变的，而 state 可以根据与用户交互来改变。</p>
+<p>这就是为什么有些容器组件需要定义 state 来更新和修改数据。 而子组件只能通过 props 来传递数据。</p>
+</blockquote>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs jsx"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;render&quot;</span>)<br>        <span class="hljs-comment">//取出传过来参数</span><br>        <span class="hljs-keyword">const</span> &#123;className, grade, list&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">props</span><br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                 <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>&#123;schoolName&#125;-年级：&#123;grade&#125;-&#123;classNum&#125;班<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                    &#123;</span><br><span class="language-xml">                        list.map((item, index) =&gt; &#123;</span><br><span class="language-xml">                            return (</span><br><span class="language-xml">                                <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;item.id&#125;</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> this.alertInfo(item)&#125;&gt;</span><br><span class="language-xml">                                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>姓名：&#123;item.name&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">                                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>年龄：&#123;item.age&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">                                <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">                            )</span><br><span class="language-xml">                        &#125;)</span><br><span class="language-xml">                    &#125;</span><br><span class="language-xml">                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br>&#125;<br><span class="hljs-keyword">const</span> cla = &#123;<br>    <span class="hljs-attr">schoolName</span>: <span class="hljs-string">&quot;XX高级中学&quot;</span>,<br>    <span class="hljs-attr">classNum</span>: <span class="hljs-number">1</span>,<br>    <span class="hljs-attr">grade</span>: <span class="hljs-string">&quot;高中&quot;</span>,<br>    <span class="hljs-attr">list</span>: [&#123;<span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-string">&quot;18&quot;</span>&#125;, &#123;<span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;李四&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>&#125;, &#123;<span class="hljs-attr">id</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;王五&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">20</span>&#125;]<br>&#125;<br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span> &#123;<span class="hljs-attr">...cla</span>&#125;/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h4 id="参数限制"><a href="#参数限制" class="headerlink" title="参数限制"></a>参数限制</h4><blockquote>
+<p>自 React v15.5 起，<code>React.PropTypes</code> 已移入另一个包中。请使用 <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/prop-types"><code>prop-types</code> 库</a> 代替。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span>&#123;&#125;...<span class="hljs-comment">//组件类</span><br><span class="hljs-comment">//对标签属性进行类型、必要性的限制</span><br><span class="hljs-title class_">TestComponent</span>.<span class="hljs-property">propTypes</span> = &#123;<br>    <span class="hljs-attr">schoolName</span>: <span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">string</span>.<span class="hljs-property">isRequired</span>,    <span class="hljs-comment">//限制schoolName必传，且为字符串</span><br>    <span class="hljs-attr">classNum</span>: <span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">number</span>,                 <span class="hljs-comment">//限制classNum为数值</span><br>    <span class="hljs-attr">afterSchool</span>: <span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">func</span>.<span class="hljs-property">isRequired</span>,     <span class="hljs-comment">//限制afterSchool为函数</span><br>&#125;<br><br><span class="hljs-comment">//指定默认标签属性值</span><br><span class="hljs-title class_">TestComponent</span>.<span class="hljs-property">defaultProps</span> = &#123;<br>    <span class="hljs-attr">grade</span>:<span class="hljs-string">&#x27;高中&#x27;</span>,   <span class="hljs-comment">//grade默认值</span><br>    <span class="hljs-attr">classNum</span>:<span class="hljs-number">1</span>,         <span class="hljs-comment">//classNum默认值</span><br>&#125;<br><br><span class="hljs-keyword">const</span> cla = &#123;<br>    <span class="hljs-attr">schoolName</span>:<span class="hljs-string">&quot;江宁高级中学&quot;</span>,<br>    <span class="hljs-attr">classNum</span>: <span class="hljs-number">1</span>,<br>    <span class="hljs-comment">// grade: &quot;高三&quot;,</span><br>    <span class="hljs-attr">list</span>: [&#123;<span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-string">&quot;18&quot;</span>&#125;, &#123;<span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;李四&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>&#125;, &#123;<span class="hljs-attr">id</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;王五&quot;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">20</span>&#125;]<br>&#125;<br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span> &#123;<span class="hljs-attr">...cla</span>&#125; <span class="hljs-attr">afterSchool</span>=<span class="hljs-string">&#123;afterSchool&#125;/</span>&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>))<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">afterSchool</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;放学啦。。。&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>函数式组件使用</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//创建组件</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span> (props)&#123;<br>    <span class="hljs-keyword">const</span> &#123;name,age,sex&#125; = props<br>    <span class="hljs-keyword">return</span> (<br>        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>姓名：&#123;name&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>性别：&#123;sex&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>年龄：&#123;age&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br>	)<br>&#125;<br><span class="hljs-title class_">Person</span>.<span class="hljs-property">propTypes</span> = &#123;<br>    <span class="hljs-attr">name</span>:<span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">string</span>.<span class="hljs-property">isRequired</span>, <span class="hljs-comment">//限制name必传，且为字符串</span><br>    <span class="hljs-attr">sex</span>:<span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">string</span>,<span class="hljs-comment">//限制sex为字符串</span><br>    <span class="hljs-attr">age</span>:<span class="hljs-title class_">PropTypes</span>.<span class="hljs-property">number</span>,<span class="hljs-comment">//限制age为数值</span><br>&#125;<br><br><span class="hljs-comment">//指定默认标签属性值</span><br><span class="hljs-title class_">Person</span>.<span class="hljs-property">defaultProps</span> = &#123;<br>    <span class="hljs-attr">sex</span>:<span class="hljs-string">&#x27;男&#x27;</span>,<span class="hljs-comment">//sex默认值为男</span><br>    <span class="hljs-attr">age</span>:<span class="hljs-number">18</span> <span class="hljs-comment">//age默认值为18</span><br>&#125;<br><span class="hljs-comment">//渲染组件到页面</span><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Person</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;jerry&quot;</span>/&gt;</span></span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<h3 id="Ref（可以获取真实DOM节点）"><a href="#Ref（可以获取真实DOM节点）" class="headerlink" title="Ref（可以获取真实DOM节点）"></a>Ref（可以获取真实DOM节点）</h3><blockquote>
+<p>React提供的这个<code>ref</code>属性，**表示为对组件真正实例的引用，其实就是<code>ReactDOM.render()返回的组件实例</code>**；需要区分一下，<code>ReactDOM.render()</code>渲染组件时返回的是组件实例；而渲染dom元素时，返回是具体的dom节点。</p>
+<p><strong>通过event.target得到发生事件的DOM元素对象 ，不要过度使用ref</strong></p>
+<p>官方说明：你可能首先会想到使用 refs 在你的 app 中“让事情发生”。如果是这种情况，请花一点时间，认真再考虑一下 state 属性应该被安排在哪个组件层中。通常你会想明白，让更高的组件层级拥有这个 state，是更恰当的。查看 <a target="_blank" rel="noopener" href="https://react.docschina.org/docs/lifting-state-up.html">状态提升</a> 以获取更多有关示例</p>
+</blockquote>
+<h4 id="字符串形式"><a href="#字符串形式" class="headerlink" title="字符串形式"></a>字符串形式</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    test1 = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-comment">//字符串形式已经被弃用</span><br>        <span class="hljs-keyword">let</span> &#123;test1&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">refs</span>;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(test1, test1.<span class="hljs-property">value</span>)<br>    &#125;<br>    <span class="hljs-comment">//函数默认会带上当前事件绑定的DOM元素</span><br>    test2 = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(e, e.<span class="hljs-property">target</span>.<span class="hljs-property">value</span>)<br>    &#125;<br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;test1&quot;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;test1&quot;</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.test1&#125;</span>&gt;</span>点击获取test1数据<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;失去焦点获取当前输入数据&quot;</span> <span class="hljs-attr">onBlur</span>=<span class="hljs-string">&#123;this.test2&#125;/</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br>&#125;<br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span>/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h4 id="回调函数形式"><a href="#回调函数形式" class="headerlink" title="回调函数形式"></a>回调函数形式</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//回调函数形式：此种方式第一次都会默认调用一次，会有执行次数的问题</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    test1 = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-comment">//字符串形式已经被弃用</span><br>        <span class="hljs-keyword">let</span> &#123;input1&#125; = <span class="hljs-variable language_">this</span>;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(input1, input1.<span class="hljs-property">value</span>)<br>    &#125;<br>    <span class="hljs-comment">//函数默认会带上当前事件绑定的DOM元素</span><br>    test2 = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(e, e.<span class="hljs-property">target</span>.<span class="hljs-property">value</span>)<br>    &#125;<br>    <span class="hljs-comment">// 方式二</span><br>    saveInput = <span class="hljs-function">(<span class="hljs-params">a</span>)=&gt;</span>&#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">input1</span> = a;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;@&#x27;</span>,a);<br>    &#125;<br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                &#123;/*JSX里的注释得这么写*/&#125;</span><br><span class="language-xml">                &#123;/* 方式一 */&#125;</span><br><span class="language-xml">                &#123;/* a标识当前元素，&#123;&#125;方法体里表示：将当前元素a赋值给当前实例中的属性input1 */&#125;</span><br><span class="language-xml">                &#123;/* <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&#123;a</span> =&gt;</span> &#123;this.input1 = a;console.log(&#x27;@&#x27;,a)&#125;&#125; placeholder=&quot;test1&quot;/&gt;*/&#125;</span><br><span class="language-xml">                &#123;/* 方式二 */&#125;</span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&#123;this.saveInput&#125;</span>  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;test1&quot;</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.test1&#125;</span>&gt;</span>点击获取test1数据<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;失去焦点获取当前输入数据&quot;</span> <span class="hljs-attr">onBlur</span>=<span class="hljs-string">&#123;this.test2&#125;/</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br>&#125;<br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span>/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h4 id="React-createRef-形式"><a href="#React-createRef-形式" class="headerlink" title="React.createRef()形式"></a><code>React.createRef()</code>形式</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//React 16.3 版本引入的 React.createRef() API</span><br><span class="hljs-comment">//Refs 是使用 React.createRef() 创建的，并通过 ref 属性附加到 React 元素。在构造组件时，通常将 Refs 分配给实例属性，以便可以在整个组件中引用它们。</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    input1 = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createRef</span>();<br>    input2 = <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createRef</span>();<br>    test1 = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">input1</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">input1</span>.<span class="hljs-property">current</span>.<span class="hljs-property">value</span>)<br>    &#125;<br>    <span class="hljs-comment">//函数默认会带上当前事件绑定的DOM元素</span><br>    test2 = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(e, <span class="hljs-variable language_">this</span>.<span class="hljs-property">input2</span>.<span class="hljs-property">current</span>.<span class="hljs-property">value</span>)<br>    &#125;<br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&#123;this.input1&#125;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;test1&quot;</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.test1&#125;</span>&gt;</span>点击获取test1数据<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&#123;this.input2&#125;</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;失去焦点获取当前输入数据&quot;</span> <span class="hljs-attr">onBlur</span>=<span class="hljs-string">&#123;this.test2&#125;/</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br>&#125;<br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span>/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h2 id="React的受控组件和非受控组件"><a href="#React的受控组件和非受控组件" class="headerlink" title="React的受控组件和非受控组件"></a>React的受控组件和非受控组件</h2><blockquote>
+<p>受控组件就是可以被 react 状态控制的组件<br>在 react 中，Input textarea 等组件默认是非受控组件（输入框内部的值是用户控制，和React无关）。但是也可以转化成受控组件，就是通过 onChange 事件获取当前输入内容，将当前输入内容作为 value 传入，此时就成为受控组件。<br>好处：可以通过 onChange 事件控制用户输入，使用正则表达式过滤不合理输入。</p>
+<p><strong>React没有实现数据的双向绑定，一句话概括：双向数据绑定就是受控组件</strong></p>
+</blockquote>
+<h2 id="高阶函数定义"><a href="#高阶函数定义" class="headerlink" title="高阶函数定义"></a>高阶函数定义</h2><blockquote>
+<p>如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数。</p>
+<ol>
+<li>若某xx函数，接收的参数是一个函数，那么xx函数就可以称之为高阶函数。</li>
+<li>若某xx函数，调用的返回值依然是一个函数，那么xx函数就可以称之为高阶函数。</li>
+</ol>
+<p>常见的高阶函数有：Promise、setTimeout、arr.map()等等。。。</p>
+</blockquote>
+<h2 id="React生命周期"><a href="#React生命周期" class="headerlink" title="React生命周期"></a>React生命周期</h2><h3 id="（旧）生命周期"><a href="#（旧）生命周期" class="headerlink" title="（旧）生命周期"></a>（旧）生命周期</h3><p><img src="https://i.loli.net/2021/03/24/qY2bIOLzhsgK1fV.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="（旧）生命周期详解："><a href="#（旧）生命周期详解：" class="headerlink" title="（旧）生命周期详解："></a>（旧）生命周期详解：</h4><blockquote>
+<p>18版本可能会移除的钩子函数：</p>
+<p><del><code>componentWillMount()</code>【组件将要挂载的钩子】已弃用</del></p>
+<p><del><code>componentWillUpdate()</code>【组件将要更新的钩子】已弃用</del></p>
+<p><del><code>componentWillReceiveProps(props)</code>【子组件将要接收新的props的钩子】已弃用</del></p>
+<p>17版本还可以用，但是必须得加上<code>UNSAFE_</code>前缀</p>
+<p>举例：<code>UNSAFE_componentWillMount()</code></p>
+</blockquote>
+<ol>
+<li><p>初始化阶段: 由<code>ReactDOM.render()</code>触发—初次渲染</p>
+<ol>
+<li><code>constructor(props)</code>【构造器】</li>
+<li><del><code>componentWillMount()</code>【组件将要挂载的钩子】已弃用</del></li>
+<li><strong><code>render()</code>【将虚拟DOM渲染到页面】（必须用）</strong></li>
+<li><strong><code>componentDidMount()</code> 【组件挂载完毕的钩子】（常用：一般在这个钩子中做一些初始化的事，例如：开启定时器、发送网络请求、订阅消息）</strong></li>
+</ol>
+</li>
+<li><p>更新阶段: 由组件内部<code>this.setSate()</code>或父组件<code>render()</code>触发</p>
+<ol>
+<li><code>shouldComponentUpdate()</code>【控制组件更新的“阀门”，有返回值：true&#x2F;false】</li>
+<li><del><code>componentWillUpdate()</code>【组件将要更新的钩子】已弃用</del></li>
+<li><strong><code>render()</code>【将虚拟DOM渲染到页面】（必须用）</strong></li>
+<li><code>componentDidUpdate()</code>【组件更新完毕的钩子】</li>
+</ol>
+<blockquote>
+<p><del><code>componentWillReceiveProps(props)</code>【子组件将要接收新的props的钩子】已弃用</del></p>
+</blockquote>
+</li>
+<li><p>卸载组件: 由<code>ReactDOM.unmountComponentAtNode(&#123;真实DOM元素&#125;)</code>触发</p>
+<blockquote>
+<p>示例：ReactDOM.unmountComponentAtNode(document.getElementById(‘test’))</p>
+</blockquote>
+<ol>
+<li><strong><code>componentWillUnmount()</code> 【组件将要卸载的钩子】 （常用：一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息）</strong></li>
+</ol>
+</li>
+</ol>
+<p><strong>代码示例：</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 构造器</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">props</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">props</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;constructor-构造器&#x27;</span>, props);<br>        <span class="hljs-variable language_">super</span>(props)<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = &#123;<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>&#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件将要挂载的钩子</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentWillMount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;componentWillMount-组件将要挂载的钩子&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件挂载完毕的钩子</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentDidMount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;componentDidMount-组件挂载完毕的钩子-（常用：一般在这个钩子中做一些初始化的事，例如：开启定时器、发送网络请求、订阅消息）&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 控制组件更新的“阀门”</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">boolean</span>&#125; true：继续、false：不走了</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">shouldComponentUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;shouldComponentUpdate-控制组件更新的“阀门”，有返回值：true/false&quot;</span>)<br>        <span class="hljs-comment">//返回值控制接下来的钩子函数走向，true：继续、false：不走了</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">count</span> % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件将要更新的钩子</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentWillUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;componentWillUpdate-组件将要更新的钩子&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件更新完毕的钩子</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentDidUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;componentDidUpdate-组件更新完毕的钩子&#x27;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 将虚拟DOM渲染到页面</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;render-将虚拟DOM渲染到页面&quot;</span>)<br>        <span class="hljs-keyword">let</span> &#123;count&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>我是父组件，当前数字：&#123;count&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> this.addCount()&#125;&gt;点我+1<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> this.forceUpdate()&#125;&gt;强制更新<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> ReactDOM.unmountComponentAtNode(document.getElementById(&#x27;test&#x27;))&#125;</span><br><span class="language-xml">                        style=&#123;&#123;backgroundColor: &quot;red&quot;&#125;&#125;&gt;卸载组件</span><br><span class="language-xml">                <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">A</span> <span class="hljs-attr">count</span>=<span class="hljs-string">&#123;this.state.count&#125;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">A</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件将要卸载的钩子</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">props</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentWillUnmount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;componentWillUnmount-组件将要卸载的钩子-（常用：一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息）&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-comment">//=============================================================</span><br>    <span class="hljs-comment">//自定义方法</span><br>    <span class="hljs-title function_">addCount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<span class="hljs-attr">count</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">count</span> + <span class="hljs-number">1</span>&#125;);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//子组件</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件将要接收新的props的钩子</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">props</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentWillReceiveProps</span>(<span class="hljs-params">props</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;A---componentWillReceiveProps&#x27;</span>, props);<br>    &#125;<br><br>    <span class="hljs-comment">//控制组件更新的“阀门”</span><br>    <span class="hljs-title function_">shouldComponentUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;A---shouldComponentUpdate&#x27;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span><br>    &#125;<br><br>    <span class="hljs-comment">//组件将要更新的钩子</span><br>    <span class="hljs-title function_">componentWillUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;A---componentWillUpdate&#x27;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">//组件更新完毕的钩子</span><br>    <span class="hljs-title function_">componentDidUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;A---componentDidUpdate&#x27;</span>);<br>    &#125;<br><br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>我是子组件“A”，父组件传过来的值是：&#123;this.props.count&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br>&#125;<br><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;aaa&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;bbb&quot;</span>/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<h3 id="（新）生命周期"><a href="#（新）生命周期" class="headerlink" title="（新）生命周期"></a>（新）生命周期</h3><p>*<strong>展示不常用生命周期：</strong></p>
+<p><img src="https://i.loli.net/2021/03/24/jbJCSoNipsql2X7.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>展示常用生命周期：</strong></p>
+<p><img src="https://i.loli.net/2021/03/26/l3HKgexf7y2wnmc.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="（新）生命周期详解："><a href="#（新）生命周期详解：" class="headerlink" title="（新）生命周期详解："></a>（新）生命周期详解：</h4><p><a target="_blank" rel="noopener" href="https://react.docschina.org/docs/react-component.html#shouldcomponentupdate">官方文档：生命周期</a></p>
+<ol>
+<li><p>初始化阶段: 由<code>ReactDOM.render()</code>触发—初次渲染</p>
+<ol>
+<li><p><code>constructor(props)</code>【构造器】</p>
+</li>
+<li><p><code>getDerivedStateFromProps(props,state)</code></p>
+<blockquote>
+<p>代码示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">static</span> <span class="hljs-title function_">getDerivedStateFromProps</span>(<span class="hljs-params">props,state</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;getDerivedStateFromProps&#x27;</span>,props,state);<br>    <span class="hljs-comment">//返回快照值</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>新增（极少用到）</p>
+<p>若state的值在任何时候都取决于props，那么可以使用getDerivedStateFromProps</p>
+</blockquote>
+</li>
+<li><p><strong><code>render()</code>【将虚拟DOM渲染到页面】（必须用）</strong></p>
+</li>
+<li><p><strong><code>componentDidMount()</code> 【组件挂载完毕的钩子】（常用：一般在这个钩子中做一些初始化的事，例如：开启定时器、发送网络请求、订阅消息）</strong></p>
+</li>
+</ol>
+</li>
+<li><p>更新阶段: 由组件内部<code>this.setSate()</code>或父组件重新<code>render()</code>触发</p>
+<ol>
+<li><p><code>getDerivedStateFromProps(props,state)</code></p>
+<blockquote>
+<p>代码示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">static</span> <span class="hljs-title function_">getDerivedStateFromProps</span>(<span class="hljs-params">props,state</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;getDerivedStateFromProps&#x27;</span>,props,state);<br>    <span class="hljs-comment">//返回快照值</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>新增（极少用到）</p>
+<p>若state的值在任何时候都取决于props，那么可以使用getDerivedStateFromProps</p>
+</blockquote>
+</li>
+<li><p><code>shouldComponentUpdate()</code>【控制组件更新的“阀门”，有返回值：true&#x2F;false】</p>
+</li>
+<li><p><strong><code>render()</code>【将虚拟DOM渲染到页面】（必须用）</strong></p>
+</li>
+<li><p><code>getSnapshotBeforeUpdate(prevProps, prevState)</code>【在更新之前获取快照】</p>
+<blockquote>
+<p>新增（极少用到）</p>
+<p>使用场景：类似微信朋友圈，朋友圈消息在不断更新动态新增时，刷到中间时停住，同时，消息也在不断新增。</p>
+</blockquote>
+</li>
+<li><p><code>componentDidUpdate(prevProps, prevState, snapshot)</code>【组件更新完毕的钩子】</p>
+</li>
+</ol>
+</li>
+<li><p>卸载组件: 由<code>ReactDOM.unmountComponentAtNode(&#123;真实DOM元素&#125;)</code>触发</p>
+<blockquote>
+<p>示例：ReactDOM.unmountComponentAtNode(document.getElementById(‘test’))</p>
+</blockquote>
+<ol>
+<li><strong><code>componentWillUnmount()</code> 【组件将要卸载的钩子】 （常用：一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息）</strong></li>
+</ol>
+</li>
+</ol>
+<p><strong>代码示例：</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TestComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 构造器</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">props</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">props</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;constructor-构造器&#x27;</span>, props);<br>        <span class="hljs-variable language_">super</span>(props)<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = &#123;<span class="hljs-attr">count</span>: <span class="hljs-number">0</span>&#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 若state的值在任何时候都取决于props</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">props</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">state</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-title function_">getDerivedStateFromProps</span>(<span class="hljs-params">props, state</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;getDerivedStateFromProps-若state的值在任何时候都取决于props&#x27;</span>, props, state);<br>        <span class="hljs-comment">// return &#123;count: state.count + 1&#125;;</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 控制组件更新的“阀门”</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">props</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">state</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">value</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@returns</span> &#123;<span class="hljs-type">boolean</span>&#125; true：继续、false：不走了</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">shouldComponentUpdate</span>(<span class="hljs-params">props, state, value</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;shouldComponentUpdate-控制组件更新的“阀门”，有返回值：true/false&quot;</span>, props, state, value)<br>        <span class="hljs-comment">//返回值控制接下来的钩子函数走向，true：继续、false：不走了</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">count</span> % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件挂载完毕的钩子</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentDidMount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;componentDidMount-组件挂载完毕的钩子-（常用：一般在这个钩子中做一些初始化的事，例如：开启定时器、发送网络请求、订阅消息）&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件更新完毕的钩子</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">prevProps</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">prevState</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> <span class="hljs-variable">snapshot</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentDidUpdate</span>(<span class="hljs-params">prevProps, prevState, snapshot</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;componentDidUpdate-组件更新完毕的钩子&#x27;</span>, prevProps, prevState, snapshot);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 将虚拟DOM渲染到页面</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;render-将虚拟DOM渲染到页面&quot;</span>)<br>        <span class="hljs-keyword">let</span> &#123;count&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>;<br>        <span class="hljs-keyword">return</span> (<br>            <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>我是父组件，当前数字：&#123;count&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> this.addCount()&#125;&gt;点我+1<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> this.forceUpdate()&#125;&gt;强制更新<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;()</span> =&gt;</span> ReactDOM.unmountComponentAtNode(document.getElementById(&#x27;test&#x27;))&#125;</span><br><span class="language-xml">                        style=&#123;&#123;backgroundColor: &quot;red&quot;&#125;&#125;&gt;卸载组件</span><br><span class="language-xml">                <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>        )<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 在更新之前获取快照</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">getSnapshotBeforeUpdate</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;getSnapshotBeforeUpdate-在更新之前获取快照&#x27;</span>);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 组件将要卸载的钩子</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-title function_">componentWillUnmount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">info</span>(<span class="hljs-string">&quot;componentWillUnmount-组件将要卸载的钩子-（常用：一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息）&quot;</span>)<br>    &#125;<br><br>    <span class="hljs-comment">//=============================================================</span><br>    <span class="hljs-comment">//自定义方法</span><br>    <span class="hljs-title function_">addCount</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<span class="hljs-attr">count</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">count</span> + <span class="hljs-number">1</span>&#125;);<br>    &#125;<br>&#125;<br><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">TestComponent</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;aaa&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;bbb&quot;</span>/&gt;</span></span>, <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;test&quot;</span>));<br></code></pre></td></tr></table></figure>
+
+<h2 id="Diffing算法"><a href="#Diffing算法" class="headerlink" title="Diffing算法"></a>Diffing算法</h2><p><strong>diff算法其实就是对DOM进行different比较不同的一种算法(虚拟的比较更节约性能) 补丁:用来更新DOM的任务</strong></p>
+<p><img src="https://i.loli.net/2021/03/26/5humsyKqxLcRCP8.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>遍历规则：先序深度优先遍历(从根节点向下级子节点遍历)</strong></p>
+<blockquote>
+<p>0是根节点、1 2 5叫广度优先、1 2 3 4 5深度优先</p>
+</blockquote>
+<p><img src="https://i.loli.net/2021/03/26/91itJMZoAcTDa78.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="For循环为什么key不能用index索引值作为key"><a href="#For循环为什么key不能用index索引值作为key" class="headerlink" title="For循环为什么key不能用index索引值作为key"></a>For循环为什么key不能用index索引值作为key</h2><blockquote>
+<p>可能会出现严重的效率问题</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs js"><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">  经典面试题:</span><br><span class="hljs-comment">     1). react/vue中的key有什么作用？（key的内部原理是什么？）</span><br><span class="hljs-comment">     2). 为什么遍历列表时，key最好不要用index?</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		1. 虚拟DOM中key的作用：</span><br><span class="hljs-comment">				1). 简单的说: key是虚拟DOM对象的标识, 在更新显示时key起着极其重要的作用。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">				2). 详细的说: 当状态中的数据发生变化时，react会根据【新数据】生成【新的虚拟DOM】,</span><br><span class="hljs-comment">											随后React进行【新虚拟DOM】与【旧虚拟DOM】的diff比较，比较规则如下：</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">								a. 旧虚拟DOM中找到了与新虚拟DOM相同的key：</span><br><span class="hljs-comment">											(1).若虚拟DOM中内容没变, 直接使用之前的真实DOM</span><br><span class="hljs-comment">											(2).若虚拟DOM中内容变了, 则生成新的真实DOM，随后替换掉页面中之前的真实DOM</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">								b. 旧虚拟DOM中未找到与新虚拟DOM相同的key</span><br><span class="hljs-comment">											根据数据创建新的真实DOM，随后渲染到到页面</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		2. 用index作为key可能会引发的问题：</span><br><span class="hljs-comment">							1. 若对数据进行：逆序添加、逆序删除等破坏顺序操作:</span><br><span class="hljs-comment">											会产生没有必要的真实DOM更新 ==&gt; 界面效果没问题, 但效率低。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">							2. 如果结构中还包含输入类的DOM：</span><br><span class="hljs-comment">											会产生错误DOM更新 ==&gt; 界面有问题。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">							3. 注意！如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，</span><br><span class="hljs-comment">								仅用于渲染列表用于展示，使用index作为key是没有问题的。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		3. 开发中如何选择key?:</span><br><span class="hljs-comment">							1.最好使用每条数据的唯一标识作为key, 比如id、手机号、身份证号、学号等唯一值。</span><br><span class="hljs-comment">							2.如果确定只是简单的展示数据，用index也是可以的。</span><br><span class="hljs-comment">  */</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">	慢动作回放----使用index索引值作为key</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		初始数据：</span><br><span class="hljs-comment">				&#123;id:1,name:&#x27;小张&#x27;,age:18&#125;,</span><br><span class="hljs-comment">				&#123;id:2,name:&#x27;小李&#x27;,age:19&#125;,</span><br><span class="hljs-comment">		初始的虚拟DOM：</span><br><span class="hljs-comment">				&lt;li key=0&gt;小张---18&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment">				&lt;li key=1&gt;小李---19&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		更新后的数据：</span><br><span class="hljs-comment">				&#123;id:3,name:&#x27;小王&#x27;,age:20&#125;,</span><br><span class="hljs-comment">				&#123;id:1,name:&#x27;小张&#x27;,age:18&#125;,</span><br><span class="hljs-comment">				&#123;id:2,name:&#x27;小李&#x27;,age:19&#125;,</span><br><span class="hljs-comment">		更新数据后的虚拟DOM：</span><br><span class="hljs-comment">				&lt;li key=0&gt;小王---20&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment">				&lt;li key=1&gt;小张---18&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment">				&lt;li key=2&gt;小李---19&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">-----------------------------------------------------------------</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">慢动作回放----使用id唯一标识作为key</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		初始数据：</span><br><span class="hljs-comment">				&#123;id:1,name:&#x27;小张&#x27;,age:18&#125;,</span><br><span class="hljs-comment">				&#123;id:2,name:&#x27;小李&#x27;,age:19&#125;,</span><br><span class="hljs-comment">		初始的虚拟DOM：</span><br><span class="hljs-comment">				&lt;li key=1&gt;小张---18&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment">				&lt;li key=2&gt;小李---19&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">		更新后的数据：</span><br><span class="hljs-comment">				&#123;id:3,name:&#x27;小王&#x27;,age:20&#125;,</span><br><span class="hljs-comment">				&#123;id:1,name:&#x27;小张&#x27;,age:18&#125;,</span><br><span class="hljs-comment">				&#123;id:2,name:&#x27;小李&#x27;,age:19&#125;,</span><br><span class="hljs-comment">		更新数据后的虚拟DOM：</span><br><span class="hljs-comment">				&lt;li key=3&gt;小王---20&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment">				&lt;li key=1&gt;小张---18&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment">				&lt;li key=2&gt;小李---19&lt;input type=&quot;text&quot;/&gt;&lt;/li&gt;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span>&#123;<br><br>	state = &#123;<br>		<span class="hljs-attr">persons</span>:[<br>			&#123;<span class="hljs-attr">id</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">name</span>:<span class="hljs-string">&#x27;小张&#x27;</span>,<span class="hljs-attr">age</span>:<span class="hljs-number">18</span>&#125;,<br>			&#123;<span class="hljs-attr">id</span>:<span class="hljs-number">2</span>,<span class="hljs-attr">name</span>:<span class="hljs-string">&#x27;小李&#x27;</span>,<span class="hljs-attr">age</span>:<span class="hljs-number">19</span>&#125;,<br>		]<br>	&#125;<br><br>	add = <span class="hljs-function">()=&gt;</span>&#123;<br>		<span class="hljs-keyword">const</span> &#123;persons&#125; = <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span><br>		<span class="hljs-keyword">const</span> p = &#123;<span class="hljs-attr">id</span>:persons.<span class="hljs-property">length</span>+<span class="hljs-number">1</span>,<span class="hljs-attr">name</span>:<span class="hljs-string">&#x27;小王&#x27;</span>,<span class="hljs-attr">age</span>:<span class="hljs-number">20</span>&#125;<br>		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(&#123;<span class="hljs-attr">persons</span>:[p,...persons]&#125;)<br>	&#125;<br><br>	<span class="hljs-title function_">render</span>(<span class="hljs-params"></span>)&#123;<br>		<span class="hljs-keyword">return</span> (<br>			<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>展示人员信息<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.add&#125;</span>&gt;</span>添加一个小王<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>使用index（索引值）作为key<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">					&#123;</span><br><span class="language-xml">						this.state.persons.map((personObj,index)=&gt;&#123;</span><br><span class="language-xml">							return <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;index&#125;</span>&gt;</span>&#123;personObj.name&#125;---&#123;personObj.age&#125;<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">						&#125;)</span><br><span class="language-xml">					&#125;</span><br><span class="language-xml">				<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">hr</span>/&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">hr</span>/&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>使用id（数据的唯一标识）作为key<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span><br><span class="language-xml">				<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">					&#123;</span><br><span class="language-xml">						this.state.persons.map((personObj)=&gt;&#123;</span><br><span class="language-xml">							return <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;personObj.id&#125;</span>&gt;</span>&#123;personObj.name&#125;---&#123;personObj.age&#125;<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span><br><span class="language-xml">						&#125;)</span><br><span class="language-xml">					&#125;</span><br><span class="language-xml">				<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span><br><span class="language-xml">			<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>		)<br>	&#125;<br>&#125;<br><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Person</span>/&gt;</span></span>,<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;test&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/React/">#React</a>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>React基础入门教程</div>
+      <div>https://happyloves.cn/20220408/2c42955d3e53.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>赵小胖</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20220707/f9f1e678c9b4.html" title="3-Mysql事务与锁详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">3-Mysql事务与锁详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20220408/a0d411e784b0.html" title="1-Mysql执行流程与架构">
+                        <span class="hidden-mobile">1-Mysql执行流程与架构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> 
+    </div>
+  
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("11/23/2022 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+  </script>
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量(PV) 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数(UV) 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备16029428号-2
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=16029428"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏ICP备16029428号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

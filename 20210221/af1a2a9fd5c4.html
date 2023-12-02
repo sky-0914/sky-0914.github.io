@@ -1,0 +1,906 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="赵小胖">
+  <meta name="keywords" content="赵小胖的小破站">
+  
+    <meta name="description" content="【环境安装】ElasticSearch安装ElasticSearch官方下载地址：https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F;elasticsearch 123456789#下载官方安装包wget -b https:&#x2F;&#x2F;artifacts.elastic.co&#x2F;downloads&#x2F;elasticsearch&#x2F;elasticsearch-7.7.1-linux-x86_6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【环境安装】ElasticSearch安装">
+<meta property="og:url" content="https://happyloves.cn/20210221/af1a2a9fd5c4.html">
+<meta property="og:site_name" content="赵小胖的小破站">
+<meta property="og:description" content="【环境安装】ElasticSearch安装ElasticSearch官方下载地址：https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F;elasticsearch 123456789#下载官方安装包wget -b https:&#x2F;&#x2F;artifacts.elastic.co&#x2F;downloads&#x2F;elasticsearch&#x2F;elasticsearch-7.7.1-linux-x86_6">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/06/06/7bNiQrTAcyjpLdO.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/06/4bvzXuQqL8deapw.png">
+<meta property="article:published_time" content="2021-02-21T13:50:55.000Z">
+<meta property="article:modified_time" content="2022-11-26T17:24:58.818Z">
+<meta property="article:author" content="赵小胖">
+<meta property="article:tag" content="ElasticSearch">
+<meta property="article:tag" content="ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.loli.net/2020/06/06/7bNiQrTAcyjpLdO.png">
+  
+  
+  
+  <title>【环境安装】ElasticSearch安装 - 赵小胖的小破站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"happyloves.cn","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"77467d426fd8e17471dc0520a8882dc9","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"w5hrdwS9CBDKyVDGP0L6J2An-gzGzoHsz","app_key":"vBrGm5dYyMgwICg2lhDV1ZW6","server_url":"https://w5hrdws9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?77467d426fd8e17471dc0520a8882dc9";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>赵小胖的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/mikutap/">
+                    
+                    mikutap
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/wechat-format/">
+                    
+                    wechat-format
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/jsonCrack/">
+                    
+                    jsonCrack
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.likepoems.com/img/pc') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【环境安装】ElasticSearch安装"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-02-21 21:50" pubdate>
+          2021年2月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【环境安装】ElasticSearch安装</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="【环境安装】ElasticSearch安装"><a href="#【环境安装】ElasticSearch安装" class="headerlink" title="【环境安装】ElasticSearch安装"></a>【环境安装】ElasticSearch安装</h1><p><strong>ElasticSearch官方下载地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/downloads/elasticsearch">https://www.elastic.co/cn/downloads/elasticsearch</a></strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">下载官方安装包</span><br>wget -b https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.7.1-linux-x86_64.tar.gz<br><span class="hljs-meta prompt_">#</span><span class="language-bash">解压安装包</span><br>tar -zxvf elasticsearch-7.7.1-linux-x86_64.tar.gz<br><span class="hljs-meta prompt_">#</span><span class="language-bash">修改所属组和所属用户（注意：当前目录所属一定不要是root）</span><br>adduser es #创建ES用户<br>chown -R es $&#123;es解压所在目录&#125;<br><span class="hljs-meta prompt_">#</span><span class="language-bash">切换用户</span><br>su es<br></code></pre></td></tr></table></figure>
+
+<p>如需下载其他版本的点击这里：</p>
+<p><img src="https://i.loli.net/2020/06/06/7bNiQrTAcyjpLdO.png" srcset="/img/loading.gif" lazyload></p>
+<p>选择所需要下载的版本</p>
+<p><img src="https://i.loli.net/2020/06/06/4bvzXuQqL8deapw.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="ElasticSearch文件目录"><a href="#ElasticSearch文件目录" class="headerlink" title="ElasticSearch文件目录"></a>ElasticSearch文件目录</h2><table>
+<thead>
+<tr>
+<th>目录</th>
+<th>配置文件</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bin</td>
+<td></td>
+<td>脚本文件，包括启动ElasticSearch，安装插件。运行统计数据等</td>
+</tr>
+<tr>
+<td>config</td>
+<td>elasticsearch.yml</td>
+<td>集群配置文件，user，role based相关配置</td>
+</tr>
+<tr>
+<td>JDK</td>
+<td></td>
+<td>Java运行环境</td>
+</tr>
+<tr>
+<td>data</td>
+<td>path.data</td>
+<td>数据文件</td>
+</tr>
+<tr>
+<td>lib</td>
+<td></td>
+<td>Java类库</td>
+</tr>
+<tr>
+<td>logs</td>
+<td>path.log</td>
+<td>日志文件</td>
+</tr>
+<tr>
+<td>modules</td>
+<td></td>
+<td>包含所有ES模块</td>
+</tr>
+<tr>
+<td>plugins</td>
+<td></td>
+<td>包含所有已安装插件</td>
+</tr>
+</tbody></table>
+<h2 id="JVM-配置"><a href="#JVM-配置" class="headerlink" title="JVM 配置"></a>JVM 配置</h2><ul>
+<li>修改JVM - config&#x2F;jvm.options<ul>
+<li>7.1 下载默认设置是 1 GB</li>
+</ul>
+</li>
+<li>配置的建议<ul>
+<li>Xms和Xmx设置成一样大</li>
+<li>Xmx不要超过机器内存的30%</li>
+<li>不要超过30GB</li>
+</ul>
+</li>
+</ul>
+<h2 id="ElasticSearch插件"><a href="#ElasticSearch插件" class="headerlink" title="ElasticSearch插件"></a>ElasticSearch插件</h2><p>在命令行输入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">安装插件</span><br>bin/elasticsearch-plugin install analysis-icu<br><span class="hljs-meta prompt_">#</span><span class="language-bash">查看插件</span><br>bin/elasticsearch-plugin list<br><span class="hljs-meta prompt_">#</span><span class="language-bash">通过URL请求查看安装的插件</span><br>GET http://localhost:9200/_cat/plugins?v<br></code></pre></td></tr></table></figure>
+
+<h2 id="ElasticSearch启动"><a href="#ElasticSearch启动" class="headerlink" title="ElasticSearch启动"></a>ElasticSearch启动</h2><p>单实例启动</p>
+<p>配置elasticsearch.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">cluster.name:</span> <span class="hljs-string">my-nodes</span> 						<span class="hljs-comment">#集群名称</span><br><span class="hljs-attr">node.name:</span> <span class="hljs-string">node-1</span> 							<span class="hljs-comment">#节点名称</span><br><span class="hljs-attr">path.data:</span> <span class="hljs-string">/opt/elasticsearch-7.6.2/data</span> 	<span class="hljs-comment">#数据</span><br><span class="hljs-attr">path.logs:</span> <span class="hljs-string">/opt/elasticsearch-7.6.2/logs</span> 	<span class="hljs-comment">#日志</span><br><span class="hljs-attr">network.host:</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span> 						<span class="hljs-comment">#ip访问限制</span><br><span class="hljs-attr">discovery.seed_hosts:</span> [<span class="hljs-string">&quot;192.168.1.70&quot;</span>] 		<span class="hljs-comment">#主机Host列表</span><br><span class="hljs-attr">cluster.initial_master_nodes:</span> [<span class="hljs-string">&quot;node-1&quot;</span>] 	<span class="hljs-comment">#节点名，单机版只有一个</span><br><span class="hljs-attr">geteway.recover_after_nodes:</span> <span class="hljs-number">1</span> 				<span class="hljs-comment">#需要被发现的节点数</span><br></code></pre></td></tr></table></figure>
+
+<p>跨域访问</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">跨域访问的配置方法，找到config文件夹下的elasticsearch.yml，在文件的末尾添加如下内容</span><br>http.cors.enabled: true <br>http.cors.allow-origin: &quot;*&quot;<br></code></pre></td></tr></table></figure>
+
+<p>利用AJAX跨域修改数据的方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> baseUrl = <span class="hljs-string">&#x27;http://localhost:9200/&#x27;</span>,<br>    putUrl = baseUrl + <span class="hljs-string">&#x27;events/logon_event/2&#x27;</span>,<br>    datas = &#123;<br>        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;郭富城&quot;</span>,<br>        <span class="hljs-string">&quot;occur_time&quot;</span>: <span class="hljs-string">&quot;2015-05-09&quot;</span>,<br>        <span class="hljs-string">&quot;enabled&quot;</span>: <span class="hljs-literal">false</span>,<br>        <span class="hljs-string">&quot;times&quot;</span>: <span class="hljs-number">22</span><br>    &#125;;<br><span class="hljs-comment">//  提交数据内容</span><br>$.<span class="hljs-title function_">ajax</span>(putUrl, &#123;<br>    type : <span class="hljs-string">&#x27;PUT&#x27;</span>,<br>    <span class="hljs-comment">//  一定要设置contentType，以payload方式提交</span><br>    <span class="hljs-attr">contentType</span>: <span class="hljs-string">&#x27;application/json&#x27;</span>,<br>    <span class="hljs-comment">//  数据一定转换为字符串</span><br>    data : <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(datas),<br>    success : <span class="hljs-keyword">function</span>(<span class="hljs-params">datas</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(datas)<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>现在就可以用javascript来制造数据了。</p>
+<p><strong>结论：</strong>ElasticSearch以payload的方式提交数据，所以设置“Content-Type”头信息是AJAX执行成功的关键。</p>
+<p>配置好后启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bin/elasticsearch<br></code></pre></td></tr></table></figure>
+
+<p>多实例启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">node.name ：节点名称</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">cluster.name ：集群名称</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">path.data：es数据存储目录</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">network.host：监听IP，默认127.0.0.1，只允许本地连接</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">http.port：端口，默认是9200，9201，9202三个端口</span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">cluster.initial_master_nodes：配置集群内可选为主节点的节点，这里设置三个节点，配置network.host后，必</span><br>./bin/elasticsearch -E node.name=node01 -E cluster.name=Practice -E path.data=/opt/elasticsearch-7.6.2/data/node01/ -E network.host=0.0.0.0 -E cluster.initial_master_nodes=node01,node02,node03 -d <br>./bin/elasticsearch -E node.name=node02 -E cluster.name=Practice -E path.data=/opt/elasticsearch-7.6.2/data/node02/ -E network.host=0.0.0.0 -E cluster.initial_master_nodes=node01,node02,node03 -d<br>./bin/elasticsearch -E node.name=node03 -E cluster.name=Practice -E path.data=/opt/elasticsearch-7.6.2/data/node03/ -E network.host=0.0.0.0 -E cluster.initial_master_nodes=node01,node02,node03 -d<br></code></pre></td></tr></table></figure>
+
+<p>启动完成后打开地址：<a href="http://ip:port">http://ip:port</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>name<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;node02&quot;</span><span class="hljs-punctuation">,</span><br>cluster_name<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Practice&quot;</span><span class="hljs-punctuation">,</span><br>cluster_uuid<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;PqERjAFRSvqVloFf1jiqPw&quot;</span><span class="hljs-punctuation">,</span><br>version<span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>number<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;7.6.2&quot;</span><span class="hljs-punctuation">,</span><br>build_flavor<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;default&quot;</span><span class="hljs-punctuation">,</span><br>build_type<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;tar&quot;</span><span class="hljs-punctuation">,</span><br>build_hash<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ef48eb35cf30adf4db14086e8aabd07ef6fb113f&quot;</span><span class="hljs-punctuation">,</span><br>build_date<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2020-03-26T06:34:37.794943Z&quot;</span><span class="hljs-punctuation">,</span><br>build_snapshot<span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>lucene_version<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;8.4.0&quot;</span><span class="hljs-punctuation">,</span><br>minimum_wire_compatibility_version<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;6.8.0&quot;</span><span class="hljs-punctuation">,</span><br>minimum_index_compatibility_version<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;6.0.0-beta1&quot;</span><br><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>tagline<span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;You Know, for Search&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><a href="http://ip:port">http://ip:port</a></p>
+<h2 id="cat"><a href="#cat" class="headerlink" title="_cat"></a>_cat</h2><p>Elasticsearch中信息很多，如果单凭肉眼来寻找复杂数据之间的关系，是很困难的。因此cat命令应运而生，它帮助开发者快速查询Elasticsearch的相关信息。</p>
+<h3 id="cat命令"><a href="#cat命令" class="headerlink" title="_cat命令"></a>_cat命令</h3><p>通过使用_cat可以查看支持的命令：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs gradle">$ curl localhost:<span class="hljs-number">9200</span>/_cat<br>=^.^=<br><span class="hljs-regexp">/_cat/</span>allocation<br><span class="hljs-regexp">/_cat/</span>shards<br><span class="hljs-regexp">/_cat/</span>shards/&#123;index&#125;<br><span class="hljs-regexp">/_cat/m</span>aster<br><span class="hljs-regexp">/_cat/</span>nodes<br><span class="hljs-regexp">/_cat/i</span>ndices<br><span class="hljs-regexp">/_cat/i</span>ndices/&#123;index&#125;<br><span class="hljs-regexp">/_cat/</span>segments<br><span class="hljs-regexp">/_cat/</span>segments/&#123;index&#125;<br><span class="hljs-regexp">/_cat/</span><span class="hljs-keyword">count</span><br><span class="hljs-regexp">/_cat/</span><span class="hljs-keyword">count</span>/&#123;index&#125;<br><span class="hljs-regexp">/_cat/</span>recovery<br><span class="hljs-regexp">/_cat/</span>recovery/&#123;index&#125;<br><span class="hljs-regexp">/_cat/</span>health<br><span class="hljs-regexp">/_cat/</span>pending_tasks<br><span class="hljs-regexp">/_cat/</span>aliases<br><span class="hljs-regexp">/_cat/</span>aliases/&#123;alias&#125;<br><span class="hljs-regexp">/_cat/</span>thread_pool<br><span class="hljs-regexp">/_cat/</span>plugins<br><span class="hljs-regexp">/_cat/</span>fielddata<br><span class="hljs-regexp">/_cat/</span>fielddata/&#123;fields&#125;<br><span class="hljs-regexp">/_cat/</span>nodeattrs<br><span class="hljs-regexp">/_cat/</span><span class="hljs-keyword">repositories</span><br><span class="hljs-regexp">/_cat/</span>snapshots/&#123;repository&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="verbose"><a href="#verbose" class="headerlink" title="verbose"></a>verbose</h3><p>每个命令都支持使用?v参数，来显示详细的信息：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">$ curl localhost:<span class="hljs-number">9200</span>/_cat/<span class="hljs-literal">master</span>?v<br>id                     host      ip        <span class="hljs-keyword">node</span><br><span class="hljs-title">QG6QrX32QSi8C3-xQmrSoA</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> Manslaughter<br></code></pre></td></tr></table></figure>
+
+<h3 id="help"><a href="#help" class="headerlink" title="help"></a>help</h3><p>每个命令都支持使用help参数，来输出可以显示的列：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">$ curl localhost:<span class="hljs-number">9200</span>/_cat/<span class="hljs-literal">master</span>?help<br>id   |   | <span class="hljs-keyword">node</span> <span class="hljs-title">id</span><br>host | h | host name<br>ip   |   | ip address<br><span class="hljs-keyword">node</span> <span class="hljs-title">| n</span> | <span class="hljs-keyword">node</span> <span class="hljs-title">name</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="headers"><a href="#headers" class="headerlink" title="headers"></a>headers</h3><p>通过h参数，可以指定输出的字段：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">$ curl localhost:<span class="hljs-number">9200</span>/_cat/<span class="hljs-literal">master</span>?v<br>id                     host      ip        <span class="hljs-keyword">node</span><br><span class="hljs-title">QG6QrX32QSi8C3-xQmrSoA</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> Manslaughter<br><br>$ curl localhost:<span class="hljs-number">9200</span>/_cat/<span class="hljs-literal">master</span>?h=host,ip,<span class="hljs-keyword">node</span><br><span class="hljs-title">127</span>.<span class="hljs-number">0.0</span>.<span class="hljs-number">1</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> Manslaughter<br></code></pre></td></tr></table></figure>
+
+<h3 id="数字类型的格式化"><a href="#数字类型的格式化" class="headerlink" title="数字类型的格式化"></a>数字类型的格式化</h3><p>很多的命令都支持返回可读性的大小数字，比如使用mb或者kb来表示。</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs fortran">$ curl localhost:<span class="hljs-number">9200</span>/_cat/indices?v<br>health <span class="hljs-keyword">status</span> <span class="hljs-built_in">index</span> pri rep docs.<span class="hljs-built_in">count</span> docs.deleted store.<span class="hljs-built_in">size</span> pri.store.<span class="hljs-built_in">size</span><br>yellow open   test    <span class="hljs-number">5</span>   <span class="hljs-number">1</span>          <span class="hljs-number">3</span>            <span class="hljs-number">0</span>      <span class="hljs-number">9.</span>kb          <span class="hljs-number">9.</span>kb<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%9B%86%E6%88%90/" class="category-chain-item">环境集成</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ElasticSearch/">#ElasticSearch</a>
+      
+        <a href="/tags/ES/">#ES</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【环境安装】ElasticSearch安装</div>
+      <div>https://happyloves.cn/20210221/af1a2a9fd5c4.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>赵小胖</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年2月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20210225/fa01ac8e46ec.html" title="【环境安装】CerebroKibana7ES">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【环境安装】CerebroKibana7ES</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20210209/be7f567224e1.html" title="【SpringCloud】Eueka注册中心">
+                        <span class="hidden-mobile">【SpringCloud】Eueka注册中心</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> 
+    </div>
+  
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("11/23/2022 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+  </script>
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量(PV) 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数(UV) 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备16029428号-2
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=16029428"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏ICP备16029428号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

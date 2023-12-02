@@ -1,0 +1,868 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icon.png">
+  <link rel="icon" href="/img/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="赵小胖">
+  <meta name="keywords" content="赵小胖的小破站">
+  
+    <meta name="description" content="Feign常见问题总结FeignClient接口如使用@PathVariable ，必须指定value属性 1234567&#x2F;&#x2F;在一些早期版本中， @PathVariable(&quot;id&quot;) 中的 &quot;id&quot; ，也就是value属性，必须指定，不能省略。@FeignClient(&quot;microservice-provider-user&quot;)publi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【SpringCloud】Feign 总结问题，注意点，性能调优，切换okhttp3">
+<meta property="og:url" content="https://happyloves.cn/20221128/b36ebc5f1af0.html">
+<meta property="og:site_name" content="赵小胖的小破站">
+<meta property="og:description" content="Feign常见问题总结FeignClient接口如使用@PathVariable ，必须指定value属性 1234567&#x2F;&#x2F;在一些早期版本中， @PathVariable(&quot;id&quot;) 中的 &quot;id&quot; ，也就是value属性，必须指定，不能省略。@FeignClient(&quot;microservice-provider-user&quot;)publi">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-28T10:54:23.534Z">
+<meta property="article:modified_time" content="2022-11-28T10:57:23.997Z">
+<meta property="article:author" content="赵小胖">
+<meta property="article:tag" content="SpringCloud">
+<meta property="article:tag" content="Feign">
+<meta property="article:tag" content="okhttp">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>【SpringCloud】Feign 总结问题，注意点，性能调优，切换okhttp3 - 赵小胖的小破站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"happyloves.cn","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"77467d426fd8e17471dc0520a8882dc9","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"w5hrdwS9CBDKyVDGP0L6J2An-gzGzoHsz","app_key":"vBrGm5dYyMgwICg2lhDV1ZW6","server_url":"https://w5hrdws9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?77467d426fd8e17471dc0520a8882dc9";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>赵小胖的小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-briefcase"></i>
+                工具
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/mikutap/">
+                    
+                    mikutap
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/wechat-format/">
+                    
+                    wechat-format
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/jsonCrack/">
+                    
+                    jsonCrack
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://api.likepoems.com/img/pc') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【SpringCloud】Feign 总结问题，注意点，性能调优，切换okhttp3"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-28 18:54" pubdate>
+          2022年11月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          87 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【SpringCloud】Feign 总结问题，注意点，性能调优，切换okhttp3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="Feign常见问题总结"><a href="#Feign常见问题总结" class="headerlink" title="Feign常见问题总结"></a>Feign常见问题总结</h3><p><strong>FeignClient接口如使用<code>@PathVariable</code> ，必须指定value属性</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//在一些早期版本中， @PathVariable(&quot;id&quot;) 中的 &quot;id&quot; ，也就是value属性，必须指定，不能省略。</span><br><span class="hljs-meta">@FeignClient(&quot;microservice-provider-user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserFeignClient</span> &#123;<br>  <span class="hljs-meta">@RequestMapping(value = &quot;/simple/&#123;id&#125;&quot;, method = RequestMethod.GET)</span><br>  <span class="hljs-keyword">public</span> User <span class="hljs-title function_">findById</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;id&quot;)</span> Long id)</span>;<br>  ...<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>Java代码自定义Feign Client的注意点与坑</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(name = &quot;microservice-provider-user&quot;, configuration = UserFeignConfig.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserFeignClient</span> &#123;<br>  <span class="hljs-meta">@GetMapping(&quot;/users/&#123;id&#125;&quot;)</span><br>  User <span class="hljs-title function_">findById</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable(&quot;id&quot;)</span> Long id)</span>;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 该Feign Client的配置类，注意：</span><br><span class="hljs-comment"> * 1. 该类可以独立出去；</span><br><span class="hljs-comment"> * 2. 该类上也可添加<span class="hljs-doctag">@Configuration</span>声明是一个配置类；</span><br><span class="hljs-comment"> * 配置类上也可添加<span class="hljs-doctag">@Configuration</span>注解，声明这是一个配置类；</span><br><span class="hljs-comment"> * 但此时千万别将该放置在主应用程序上下文<span class="hljs-doctag">@ComponentScan</span>所扫描的包中，</span><br><span class="hljs-comment"> * 否则，该配置将会被所有Feign Client共享，无法实现细粒度配置！</span><br><span class="hljs-comment"> * 个人建议：像我一样，不加<span class="hljs-doctag">@Configuration</span>注解</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> zhouli</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserFeignConfig</span> &#123;<br>  <span class="hljs-meta">@Bean</span><br>  <span class="hljs-keyword">public</span> Logger.Level <span class="hljs-title function_">logger</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">return</span> Logger.Level.FULL;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>配置类上也可添加@Configuraiton 注解，声明这是一个配置类；但此时千万别将该放置在主应用程序上下文@ComponentScan 所扫描的包中，否则，该配置将会被所有Feign Client共享（相当于变成了通用配置，其实本质还是Spring父子上下文扫描包重叠导致的问题），无法实现细粒度配置！</li>
+<li><strong>个人建议：</strong>像我一样，不加@Configuration注解，省得进坑。</li>
+<li><strong>最佳实践：</strong>尽量用配置属性自定义Feign的配置！！！</li>
+</ul>
+<p><strong>@FeignClient 注解属性</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//@FeignClient(name = &quot;microservice-provider-user&quot;)</span><br><span class="hljs-comment">//在早期的Spring Cloud版本中，无需提供name属性，从Brixton版开始，@FeignClient必须提供name属性，否则应用将无法正常启动！</span><br><span class="hljs-comment">//另外，name、url等属性支持占位符。例如：</span><br><span class="hljs-meta">@FeignClient(name = &quot;$&#123;feign.name&#125;&quot;, url = &quot;$&#123;feign.url&#125;&quot;)</span><br></code></pre></td></tr></table></figure>
+<p><strong>类级别的@RequestMapping会被Spring MVC加载</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/users&quot;)</span><br><span class="hljs-meta">@FeignClient(name = &quot;microservice-user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestFeignClient</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>类上的<code>@RequestMapping</code> 注解也会被Spring MVC加载。该问题现已经被解决，早期的版本有两种解决方案：<br><strong>方案1：</strong>不在类上加@RequestMapping 注解；<br><strong>方案2：</strong>添加如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ConditionalOnClass(&#123; Feign.class &#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FeignMappingDefaultConfiguration</span> &#123;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> WebMvcRegistrations <span class="hljs-title function_">feignWebRegistrations</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebMvcRegistrationsAdapter</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> RequestMappingHandlerMapping <span class="hljs-title function_">getRequestMappingHandlerMapping</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FeignFilterRequestMappingHandlerMapping</span>();<br>            &#125;<br>        &#125;;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FeignFilterRequestMappingHandlerMapping</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">RequestMappingHandlerMapping</span> &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isHandler</span><span class="hljs-params">(Class&lt;?&gt; beanType)</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.isHandler(beanType) &amp;&amp; !beanType.isInterface();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>首次请求失败</strong><br>Ribbon的饥饿加载(eager-load)模式</p>
+<p><strong>如需产生Hystrix Stream监控信息，需要做一些额外操作</strong><br>Feign本身已经整合了Hystrix，可直接使用<code>@FeignClient(value = &quot;microservice-provider-user&quot;, fallback = XXX.class)</code> 来指定fallback类，fallback类继承<code>@FeignClient</code>所标注的接口即可。</p>
+<p>但是假设如需使用Hystrix Stream进行监控，默认情况下，访问<a href="http://IP:PORT/actuator/hystrix.stream">http://IP:PORT/actuator/hystrix.stream</a> 是会返回404，这是因为Feign虽然整合了Hystrix，但并没有整合Hystrix的监控。如何添加监控支持呢？需要以下几步：</p>
+<p>第一步：添加依赖，示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;!-- 整合hystrix，其实feign中自带了hystrix，引入该依赖主要是为了使用其中的hystrix-metrics-event-stream，用于dashboard --&gt;<br>&lt;dependency&gt;<br>  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br>  &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<p>第二步：在启动类上添加@EnableCircuitBreaker 注解，示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-meta">@EnableFeignClients</span><br><span class="hljs-meta">@EnableDiscoveryClient</span><br><span class="hljs-meta">@EnableCircuitBreaker</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MovieFeignHystrixApplication</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    SpringApplication.run(MovieFeignHystrixApplication.class, args);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>第三步：在application.yml中添加如下内容，暴露hystrix.stream端点：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">management:</span><br>  <span class="hljs-attr">endpoints:</span><br>    <span class="hljs-attr">web:</span><br>      <span class="hljs-attr">exposure:</span><br>        <span class="hljs-attr">include:</span> <span class="hljs-string">&#x27;hystrix.stream&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>这样，访问任意Feign Client接口的API后，再访问<a href="http://IP:PORT/actuator/hystrix.stream">http://IP:PORT/actuator/hystrix.stream</a> ，就会展示一大堆Hystrix监控数据了。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://www.itmuch.com/spring-cloud-sum/feign-problems/">http://www.itmuch.com/spring-cloud-sum/feign-problems/</a></p>
+<h4 id="Feign-上传文件"><a href="#Feign-上传文件" class="headerlink" title="Feign 上传文件"></a>Feign 上传文件</h4><p><strong>加依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>    &lt;groupId&gt;io.github.openfeign.form&lt;/groupId&gt;<br>    &lt;artifactId&gt;feign-form&lt;/artifactId&gt;<br>	&lt;version&gt;3.0.3&lt;/version&gt;<br>&lt;/dependency&gt;<br>&lt;dependency&gt;<br>	&lt;groupId&gt;io.github.openfeign.form&lt;/groupId&gt;<br>	&lt;artifactId&gt;feign-form-spring&lt;/artifactId&gt;<br>	&lt;version&gt;3.0.3&lt;/version&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<p><strong>编写Feign Client</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(name = &quot;ms-content-sample&quot;, configuration = UploadFeignClient.MultipartSupportConfig.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UploadFeignClient</span> &#123;<br>    <span class="hljs-meta">@RequestMapping(value = &quot;/upload&quot;, method = RequestMethod.POST,</span><br><span class="hljs-meta">            produces = &#123;MediaType.APPLICATION_JSON_UTF8_VALUE&#125;,</span><br><span class="hljs-meta">            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    String <span class="hljs-title function_">handleFileUpload</span><span class="hljs-params">(<span class="hljs-meta">@RequestPart(value = &quot;file&quot;)</span> MultipartFile file)</span>;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">MultipartSupportConfig</span> &#123;<br>        <span class="hljs-meta">@Bean</span><br>        <span class="hljs-keyword">public</span> Encoder <span class="hljs-title function_">feignFormEncoder</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpringFormEncoder</span>();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如代码所示，在这个Feign Client中，我们引用了配置类<code>MultipartSupportConfig</code> ，在<code>MultipartSupportConfig</code> 中，我们实例化了<code>SpringFormEncoder</code> 。这样这个Feign Client就能够上传啦。<br><strong>注意点</strong><br>-</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//RequestMapping注解中的produeces 、consumes 不能少；</span><br><span class="hljs-meta">@RequestMapping(value = &quot;/upload&quot;, method = RequestMethod.POST,</span><br><span class="hljs-meta">            produces = &#123;MediaType.APPLICATION_JSON_UTF8_VALUE&#125;,</span><br><span class="hljs-meta">            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li>接口定义中的注解<code>@RequestPart(value = &quot;file&quot;)</code> 不能写成<code>@RequestParam(value = &quot;file&quot;）</code> 。</li>
+<li>最好将Hystrix的超时时间设长一点，例如5秒，否则可能文件还没上传完，Hystrix就超时了，从而导致客户端侧的报错。</li>
+</ul>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://www.itmuch.com/spring-cloud-sum/spring-cloud-feign-upload/">http://www.itmuch.com/spring-cloud-sum/spring-cloud-feign-upload/</a></p>
+<h4 id="Feign实现Form表单提交"><a href="#Feign实现Form表单提交" class="headerlink" title="Feign实现Form表单提交"></a>Feign实现Form表单提交</h4><p><strong>添加依赖：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>  &lt;groupId&gt;io.github.openfeign.form&lt;/groupId&gt;<br>  &lt;artifactId&gt;feign-form&lt;/artifactId&gt;<br>  &lt;version&gt;3.2.2&lt;/version&gt;<br>&lt;/dependency&gt;<br>&lt;dependency&gt;<br>  &lt;groupId&gt;io.github.openfeign.form&lt;/groupId&gt;<br>  &lt;artifactId&gt;feign-form-spring&lt;/artifactId&gt;<br>  &lt;version&gt;3.2.2&lt;/version&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<p><strong>Feign Client示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(name = &quot;xxx&quot;, url = &quot;http://www.itmuch.com/&quot;, configuration = TestFeignClient.FormSupportConfig.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">TestFeignClient</span> &#123;<br>    <span class="hljs-meta">@PostMapping(value = &quot;/test&quot;,</span><br><span class="hljs-meta">            consumes = &#123;MediaType.APPLICATION_FORM_URLENCODED_VALUE&#125;,</span><br><span class="hljs-meta">            produces = &#123;MediaType.APPLICATION_JSON_UTF8_VALUE&#125;</span><br><span class="hljs-meta">            )</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">post</span><span class="hljs-params">(Map&lt;String, ?&gt; queryParam)</span>;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">FormSupportConfig</span> &#123;<br>        <span class="hljs-meta">@Autowired</span><br>        <span class="hljs-keyword">private</span> ObjectFactory&lt;HttpMessageConverters&gt; messageConverters;<br>        <span class="hljs-comment">// new一个form编码器，实现支持form表单提交</span><br>        <span class="hljs-meta">@Bean</span><br>        <span class="hljs-keyword">public</span> Encoder <span class="hljs-title function_">feignFormEncoder</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpringFormEncoder</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">SpringEncoder</span>(messageConverters));<br>        &#125;<br>        <span class="hljs-comment">// 开启Feign的日志</span><br>        <span class="hljs-meta">@Bean</span><br>        <span class="hljs-keyword">public</span> Logger.Level <span class="hljs-title function_">logger</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> Logger.Level.FULL;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>调用示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/user/&#123;id&#125;&quot;)</span><br><span class="hljs-keyword">public</span> User <span class="hljs-title function_">findById</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> Long id)</span> &#123;<br>  HashMap&lt;String, String&gt; param = Maps.newHashMap();<br>  param.put(<span class="hljs-string">&quot;username&quot;</span>,<span class="hljs-string">&quot;zhangsan&quot;</span>);<br>  param.put(<span class="hljs-string">&quot;password&quot;</span>,<span class="hljs-string">&quot;pwd&quot;</span>);<br>  <span class="hljs-built_in">this</span>.testFeignClient.post(param);<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>日志：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs code">...[TestFeignClient#post] ---&gt; POST http://www.baidu.com/test HTTP/1.1<br>...[TestFeignClient#post] Accept: application/json;charset=UTF-8<br>...[TestFeignClient#post] Content-Type: application/x-www-form-urlencoded; charset=UTF-8<br>...[TestFeignClient#post] Content-Length: 30<br>...[TestFeignClient#post]<br>...[TestFeignClient#post] password=pwd&amp;username=zhangsan<br>...[TestFeignClient#post] ---&gt; END HTTP (30-byte body)<br></code></pre></td></tr></table></figure>
+<p>由日志可知，此时Feign已能使用Form表单方式提交数据。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://www.itmuch.com/spring-cloud-sum/feign-form-params/">http://www.itmuch.com/spring-cloud-sum/feign-form-params/</a></p>
+<h3 id="Feign-GET请求如何构造多参数"><a href="#Feign-GET请求如何构造多参数" class="headerlink" title="Feign GET请求如何构造多参数"></a>Feign GET请求如何构造多参数</h3><p>假设需请求的URL包含多个参数，例如<a target="_blank" rel="noopener" href="http://microservice-provider-user/get?id=1&amp;username=%E5%BC%A0%E4%B8%89">http://microservice-provider-user/get?id=1&amp;username=张三</a> ，该如何使用Feign构造呢？<br>我们知道，Spring Cloud为Feign添加了Spring MVC的注解支持，那么我们不妨按照Spring MVC的写法尝试一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(&quot;microservice-provider-user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserFeignClient</span> &#123;<br>  <span class="hljs-meta">@RequestMapping(value = &quot;/get&quot;, method = RequestMethod.GET)</span><br>  <span class="hljs-keyword">public</span> User <span class="hljs-title function_">get0</span><span class="hljs-params">(User user)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>然而，这种写法并不正确，控制台会输出类似如下的异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs code">feign.FeignException: status 405 reading UserFeignClient#get0(User); content:<br>&#123;&quot;timestamp&quot;:1482676142940,&quot;status&quot;:405,&quot;error&quot;:&quot;Method Not Allowed&quot;,&quot;exception&quot;:&quot;org.springframework.web.HttpRequestMethodNotSupportedException&quot;,&quot;message&quot;:&quot;Request method &#x27;POST&#x27; not supported&quot;,&quot;path&quot;:&quot;/get&quot;&#125;<br></code></pre></td></tr></table></figure>
+<p>由异常可知，尽管我们指定了GET方法，Feign依然会使用POST方法发送请求。于是导致了异常。正确写法如下</p>
+<p><strong>方法一[推荐]</strong><br><strong>注意:使用该方法无法使用Fegin的继承模式</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(&quot;microservice-provider-user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserFeignClient</span> &#123;<br>  <span class="hljs-meta">@GetMapping(&quot;/get&quot;)</span><br>  <span class="hljs-keyword">public</span> User <span class="hljs-title function_">get0</span><span class="hljs-params">(<span class="hljs-meta">@SpringQueryMap</span> User user)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>方法二[推荐]</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(name = &quot;microservice-provider-user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserFeignClient</span> &#123;<br>  <span class="hljs-meta">@RequestMapping(value = &quot;/get&quot;, method = RequestMethod.GET)</span><br>  <span class="hljs-keyword">public</span> User <span class="hljs-title function_">get1</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(&quot;id&quot;)</span> Long id, <span class="hljs-meta">@RequestParam(&quot;username&quot;)</span> String username)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这是最为直观的方式，URL有几个参数，Feign接口中的方法就有几个参数。使用@RequestParam注解指定请求的参数是什么。</p>
+<p><strong>方法三[不推荐]</strong><br>多参数的URL也可使用Map来构建。当目标URL参数非常多的时候，可使用这种方式简化Feign接口的编写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient(name = &quot;microservice-provider-user&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserFeignClient</span> &#123;<br>  <span class="hljs-meta">@RequestMapping(value = &quot;/get&quot;, method = RequestMethod.GET)</span><br>  <span class="hljs-keyword">public</span> User <span class="hljs-title function_">get2</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam</span> Map&lt;String, Object&gt; map)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在调用时，可使用类似以下的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> User <span class="hljs-title function_">get</span><span class="hljs-params">(String username, String password)</span> &#123;<br>  HashMap&lt;String, Object&gt; map = Maps.newHashMap();<br>  map.put(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>);<br>  map.put(<span class="hljs-string">&quot;username&quot;</span>, <span class="hljs-string">&quot;张三&quot;</span>);<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.userFeignClient.get2(map);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>注意：</strong>这种方式不建议使用。主要是因为可读性不好，而且如果参数为空的时候会有一些问题，例如<code>map.put(&quot;username&quot;, null);</code> 会导致服务调用方（消费者服务）接收到的username是”” ，而不是null。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://www.itmuch.com/spring-cloud-sum/feign-multiple-params-2/">http://www.itmuch.com/spring-cloud-sum/feign-multiple-params-2/</a></p>
+<h3 id="切换为-Okhttp3-提升-QPS-性能优化"><a href="#切换为-Okhttp3-提升-QPS-性能优化" class="headerlink" title="切换为 Okhttp3 提升 QPS 性能优化"></a>切换为 Okhttp3 提升 QPS 性能优化</h3><p><strong>加依赖引入okhttp3</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs pom">&lt;dependency&gt;<br>	&lt;groupId&gt;io.github.openfeign&lt;/groupId&gt;<br>	&lt;artifactId&gt;feign-okhttp&lt;/artifactId&gt;<br>	&lt;version&gt;$&#123;version&#125;&lt;/version&gt;<br>&lt;/dependency&gt;<br></code></pre></td></tr></table></figure>
+<p><strong>写配置</strong></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">feign:</span><br>  <span class="hljs-comment"># feign启用hystrix，才能熔断、降级</span><br>  <span class="hljs-comment"># hystrix:</span><br>  <span class="hljs-comment"># enabled: true</span><br>  <span class="hljs-comment"># 启用 okhttp 关闭默认 httpclient</span><br>  <span class="hljs-attr">httpclient:</span><br>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#关闭httpclient</span><br>	<span class="hljs-comment"># 配置连接池</span><br>    <span class="hljs-attr">max-connections:</span> <span class="hljs-number">200</span> <span class="hljs-comment">#feign的最大连接数</span><br>    <span class="hljs-attr">max-connections-per-route:</span> <span class="hljs-number">50</span> <span class="hljs-comment">#fegin单个路径的最大连接数</span><br>  <span class="hljs-attr">okhttp:</span><br>    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-comment"># 请求与响应的压缩以提高通信效率</span><br>  <span class="hljs-attr">compression:</span><br>    <span class="hljs-attr">request:</span><br>      <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>      <span class="hljs-attr">min-request-size:</span> <span class="hljs-number">2048</span><br>      <span class="hljs-attr">mime-types:</span> <span class="hljs-string">text/xml,application/xml,application/json</span><br>    <span class="hljs-attr">response:</span><br>      <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+<p><strong>参数配置</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 配置 okhttp 与连接池</span><br><span class="hljs-comment"> * ConnectionPool 默认创建5个线程，保持5分钟长连接</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ConditionalOnClass(Feign.class)</span><br><span class="hljs-meta">@AutoConfigureBefore(FeignAutoConfiguration.class)</span> <span class="hljs-comment">//SpringBoot自动配置</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OkHttpConfig</span> &#123;<br><br>    <span class="hljs-comment">// 默认老外留给你彩蛋中文乱码，加上它就 OK</span><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> Encoder <span class="hljs-title function_">encoder</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormEncoder</span>();<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> okhttp3.OkHttpClient <span class="hljs-title function_">okHttpClient</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">okhttp3</span>.OkHttpClient.Builder()<br>                <span class="hljs-comment">//设置连接超时</span><br>                .connectTimeout(<span class="hljs-number">10</span>, TimeUnit.SECONDS)<br>                <span class="hljs-comment">//设置读超时</span><br>                .readTimeout(<span class="hljs-number">10</span>, TimeUnit.SECONDS)<br>                <span class="hljs-comment">//设置写超时</span><br>                .writeTimeout(<span class="hljs-number">10</span>, TimeUnit.SECONDS)<br>                <span class="hljs-comment">//是否自动重连</span><br>                .retryOnConnectionFailure(<span class="hljs-literal">true</span>)<br>                .connectionPool(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConnectionPool</span>(<span class="hljs-number">10</span>, <span class="hljs-number">5L</span>, TimeUnit.MINUTES))<br>                .build();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/PAjXS9d6Sxa04pw1Lw2HXQ">https://mp.weixin.qq.com/s/PAjXS9d6Sxa04pw1Lw2HXQ</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/SpringCloud/" class="category-chain-item">SpringCloud</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/SpringCloud/">#SpringCloud</a>
+      
+        <a href="/tags/Feign/">#Feign</a>
+      
+        <a href="/tags/okhttp/">#okhttp</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【SpringCloud】Feign 总结问题，注意点，性能调优，切换okhttp3</div>
+      <div>https://happyloves.cn/20221128/b36ebc5f1af0.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>赵小胖</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/20221128/74c687698b2d.html" title="【SpringCloud】Feign组成和配置">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【SpringCloud】Feign组成和配置</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/20221128/d0397353a18f.html" title="【SpringCloud】Feign性能优化">
+                        <span class="hidden-mobile">【SpringCloud】Feign性能优化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <i class="iconfont icon-love"></i> 
+    </div>
+  
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date();
+    function createtime() {
+      var grt= new Date("11/23/2022 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+      document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+      document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+    setInterval("createtime()",250);
+  </script>
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量(PV) 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数(UV) 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备16029428号-2
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=16029428"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏ICP备16029428号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
